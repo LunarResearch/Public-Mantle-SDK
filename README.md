@@ -1,1 +1,1 @@
-# Mantle
+# AMD Mantle API Initialize
