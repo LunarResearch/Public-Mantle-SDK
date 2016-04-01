@@ -46,7 +46,6 @@ void InitMantle()
 #else
 	DeviceInfo.maxValidationLevel = GR_VALIDATION_LEVEL_0;
 #endif
-
 	Result = grCreateDevice(gpus[0], &DeviceInfo, &Device);
 }
 
