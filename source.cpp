@@ -19,7 +19,7 @@ void InitMantle()
 
 	GR_APPLICATION_INFO AppInfo{};
 	AppInfo.apiVersion = GR_API_VERSION;
-	AppInfo.pAppName = "MantleInit";
+	AppInfo.pAppName = "InitMantle";
 
 	GR_PHYSICAL_GPU gpus[GR_MAX_PHYSICAL_GPUS]{};
 	GR_UINT GPUCount = 0;
