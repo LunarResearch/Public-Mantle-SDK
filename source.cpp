@@ -2,7 +2,7 @@
 #include <Windows.h>
 
 GR_DEVICE Device = GR_NULL_HANDLE;
-GR_RESULT result;
+GR_RESULT Result;
 
 void InitMantle()
 {
@@ -23,11 +23,11 @@ void InitMantle()
 
 	GR_PHYSICAL_GPU gpus[GR_MAX_PHYSICAL_GPUS]{};
 	GR_UINT GPUCount = 0;
-	result = grInitAndEnumerateGpus(&AppInfo, GR_NULL_HANDLE, &GPUCount, gpus);
+	Result = grInitAndEnumerateGpus(&AppInfo, GR_NULL_HANDLE, &GPUCount, gpus);
 
 	GR_PHYSICAL_GPU_PROPERTIES pData{};
 	GR_SIZE pDataSize = 0;
-	result = grGetGpuInfo(gpus[0], GR_INFO_TYPE_PHYSICAL_GPU_QUEUE_PROPERTIES, &pDataSize, &pData);
+	Result = grGetGpuInfo(gpus[0], GR_INFO_TYPE_PHYSICAL_GPU_QUEUE_PROPERTIES, &pDataSize, &pData);
 
 	GR_DEVICE_QUEUE_CREATE_INFO QueueInfo{};
 	QueueInfo.queueType = GR_QUEUE_UNIVERSAL;
@@ -47,7 +47,7 @@ void InitMantle()
 	DeviceInfo.maxValidationLevel = GR_VALIDATION_LEVEL_0;
 #endif
 
-	result = grCreateDevice(gpus[0], &DeviceInfo, &Device);
+	Result = grCreateDevice(gpus[0], &DeviceInfo, &Device);
 }
 
 int main()
