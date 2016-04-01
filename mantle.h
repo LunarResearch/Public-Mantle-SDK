@@ -133,8 +133,7 @@ typedef GR_VOID* (GR_STDCALL* GR_ALLOC_FUNCTION)(
 typedef GR_VOID(GR_STDCALL* GR_FREE_FUNCTION)(
 	GR_VOID* pMem);
 
-typedef struct _GR_APPLICATION_INFO
-{
+typedef struct _GR_APPLICATION_INFO{
 	const GR_CHAR* pAppName;
 	GR_UINT32 appVersion;
 	const GR_CHAR* pEngineName;
@@ -142,14 +141,12 @@ typedef struct _GR_APPLICATION_INFO
 	GR_UINT32 apiVersion;
 } GR_APPLICATION_INFO;
 
-typedef struct _GR_DEVICE_QUEUE_CREATE_INFO
-{
+typedef struct _GR_DEVICE_QUEUE_CREATE_INFO{
 	GR_ENUM queueType;
 	GR_UINT queueCount;
 } GR_DEVICE_QUEUE_CREATE_INFO;
 
-typedef struct _GR_DEVICE_CREATE_INFO
-{
+typedef struct _GR_DEVICE_CREATE_INFO{
 	GR_UINT queueRecordCount;
 	const GR_DEVICE_QUEUE_CREATE_INFO* pRequestedQueues;
 	GR_UINT extensionCount;
@@ -158,14 +155,12 @@ typedef struct _GR_DEVICE_CREATE_INFO
 	GR_FLAGS flags;
 } GR_DEVICE_CREATE_INFO;
 
-typedef struct _GR_ALLOC_CALLBACKS
-{
+typedef struct _GR_ALLOC_CALLBACKS{
 	GR_ALLOC_FUNCTION pfnAlloc;
 	GR_FREE_FUNCTION pfnFree;
 } GR_ALLOC_CALLBACKS;
 
-typedef struct _GR_PHYSICAL_GPU_PROPERTIES
-{
+typedef struct _GR_PHYSICAL_GPU_PROPERTIES{
 	GR_UINT32 apiVersion;
 	GR_UINT32 driverVersion;
 	GR_UINT32 vendorId;
