@@ -1,3 +1,6 @@
+#ifndef ERRORS_H_
+#define ERRORS_H_ 1
+
 #pragma once
 
 #include "mantle.h"
@@ -128,3 +131,5 @@ void ErrorCheck(GR_RESULT Result)
 		break;
 	}
 }
+
+#endif
