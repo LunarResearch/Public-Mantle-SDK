@@ -12,6 +12,24 @@ void ErrorCheck(GR_RESULT Check)
 {
 	switch (Check)
 	{
+	case GR_SUCCESS:
+		std::cout << "GR_SUCCESS" << std::endl;
+		break;
+	case GR_UNSUPPORTED:
+		std::cout << "GR_UNSUPPORTED" << std::endl;
+		break;
+	case GR_NOT_READY:
+		std::cout << "GR_NOT_READY" << std::endl;
+		break;
+	case GR_TIMEOUT:
+		std::cout << "GR_TIMEOUT" << std::endl;
+		break;
+	case GR_EVENT_SET:
+		std::cout << "GR_EVENT_SET" << std::endl;
+		break;
+	case GR_EVENT_RESET:
+		std::cout << "GR_EVENT_RESET" << std::endl;
+		break;
 	case GR_ERROR_UNKNOWN:
 		std::cout << "GR_ERROR_UNKNOWN" << std::endl;
 		break;
@@ -114,6 +132,9 @@ void ErrorCheck(GR_RESULT Check)
 	case GR_ERROR_NOT_SHAREABLE:
 		std::cout << "GR_ERROR_NOT_SHAREABLE" << std::endl;
 		break;
+	case GR_WSI_WIN_PRESENT_OCCLUDED:
+		std::cout << "GR_WSI_WIN_PRESENT_OCCLUDED" << std::endl;
+		break;
 	case GR_WSI_WIN_ERROR_FULLSCREEN_UNAVAILABLE:
 		std::cout << "GR_WSI_WIN_ERROR_FULLSCREEN_UNAVAILABLE" << std::endl;
 		break;
@@ -132,7 +153,7 @@ void ErrorCheck(GR_RESULT Check)
 	default:
 		break;
 	}
-	
+
 	Result = Check;
 }
 
