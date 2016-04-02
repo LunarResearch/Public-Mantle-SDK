@@ -1,4 +1,4 @@
-#include "errors.h"
+#include "MsgHelper.h"
 #include <Windows.h>
 
 GR_DEVICE Device = GR_NULL_HANDLE;
