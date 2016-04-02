@@ -3,7 +3,6 @@
 
 GR_DEVICE Device = GR_NULL_HANDLE;
 GR_PHYSICAL_GPU_PROPERTIES pData = {};
-GR_RESULT Result;
 HMODULE hModule = 0;
 
 void InitMantle()
