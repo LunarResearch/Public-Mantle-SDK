@@ -6,9 +6,11 @@
 #include "mantle.h"
 #include <iostream>
 
-void ErrorCheck(GR_RESULT Result)
+GR_RESULT Result;
+
+void ErrorCheck(GR_RESULT Check)
 {
-	switch (Result)
+	switch (Check)
 	{
 	case GR_ERROR_UNKNOWN:
 		std::cout << "GR_ERROR_UNKNOWN" << std::endl;
@@ -130,6 +132,8 @@ void ErrorCheck(GR_RESULT Result)
 	default:
 		break;
 	}
+	
+	Result = Check;
 }
 
 #endif
