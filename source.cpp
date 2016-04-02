@@ -4,10 +4,11 @@
 GR_DEVICE Device = GR_NULL_HANDLE;
 GR_PHYSICAL_GPU_PROPERTIES pData = {};
 GR_RESULT Result;
+HMODULE hModule = 0;
 
 void InitMantle()
 {
-	HMODULE hModule = LoadLibrary("mantle64.dll"); // or mantle32.dll for 32 bit app
+	hModule = LoadLibrary("mantle64.dll"); // or mantle32.dll for 32 bit app
 
 	grInitAndEnumerateGpus = reinterpret_cast<InitAndEnumerateGpus>(
 		GetProcAddress(hModule, "grInitAndEnumerateGpus"));
@@ -65,12 +66,14 @@ int main()
 
 		std::cin.get();
 		grDestroyDevice(Device);
+		FreeLibrary(hModule);
 		return 0;
 	}
 
 	else
 	{
 		std::cin.get();
+		FreeLibrary(hModule);
 		std::exit(-1);
 	}
 }
