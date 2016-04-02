@@ -23,7 +23,7 @@ typedef unsigned int GR_BOOL;
 #define GR_MAKE_VERSION(major, minor, patch) \
     (((major) << 22) | ((minor) << 12) | (patch))
 
-#define GR_API_VERSION GR_MAKE_VERSION(0, 24, 5) // 98309
+#define GR_API_VERSION GR_MAKE_VERSION(0, 24, 5) // 98309 (build 9.1.10.109)
 
 #define GR_VERSION_MAJOR(version) ((GR_UINT32)(version) >> 22)
 #define GR_VERSION_MINOR(version) (((GR_UINT32)(version) >> 12) & 0x3ff)
