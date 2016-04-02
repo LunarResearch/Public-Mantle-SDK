@@ -1,5 +1,5 @@
-#ifndef ERRORS_H_
-#define ERRORS_H_ 1
+#ifndef MSGHELPER_H_
+#define MSGHELPER_H_ 1
 
 #pragma once
 
