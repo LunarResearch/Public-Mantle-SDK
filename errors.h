@@ -1,6 +1,6 @@
 #pragma once
 
-#include"mantle.h"
+#include "mantle.h"
 #include <iostream>
 
 void ErrorCheck(GR_RESULT Result)
