@@ -55,13 +55,9 @@ int main()
 
 	if (Result == GR_SUCCESS)
 	{
-		GR_UINT32 VendorID = pData.vendorId;
-		GR_UINT32 DeviceID = pData.deviceId;
-		GR_CHAR* GPUName = pData.gpuName;
-
-		std::cout << "VendorID: " << VendorID <<
-			std::endl << "DeviceID: " << DeviceID <<
-			std::endl << "GPUName: " << GPUName << std::endl;
+		std::cout << "VendorID: " << pData.vendorId <<
+			std::endl << "DeviceID: " << pData.deviceId <<
+			std::endl << "GPUName: " << pData.gpuName << std::endl;
 
 		std::cin.get();
 		grDestroyDevice(Device);
