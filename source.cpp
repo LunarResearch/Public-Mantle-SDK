@@ -7,7 +7,7 @@ GR_RESULT Result;
 
 void InitMantle()
 {
-	HMODULE hModule = LoadLibrary("mantle64.dll");
+	HMODULE hModule = LoadLibrary("mantle64.dll"); // or mantle32.dll for 32 bits app
 
 	grInitAndEnumerateGpus = reinterpret_cast<InitAndEnumerateGpus>(
 		GetProcAddress(hModule, "grInitAndEnumerateGpus"));
