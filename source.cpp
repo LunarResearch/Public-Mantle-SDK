@@ -1,7 +1,9 @@
 #include "mantle.h"
 #include <Windows.h>
+#include <iostream>
 
 GR_DEVICE Device = GR_NULL_HANDLE;
+GR_PHYSICAL_GPU_PROPERTIES pData = {};
 GR_RESULT Result;
 
 void InitMantle()
@@ -25,7 +27,6 @@ void InitMantle()
 	GR_UINT GPUCount = 0;
 	Result = grInitAndEnumerateGpus(&AppInfo, GR_NULL_HANDLE, &GPUCount, gpus);
 
-	GR_PHYSICAL_GPU_PROPERTIES pData{};
 	GR_SIZE pDataSize = 0;
 	Result = grGetGpuInfo(gpus[0], GR_INFO_TYPE_PHYSICAL_GPU_QUEUE_PROPERTIES, &pDataSize, &pData);
 
@@ -53,7 +54,15 @@ int main()
 {
 	InitMantle();
 
-	system("pause");
+	GR_UINT32 VendorID = pData.vendorId;
+	GR_UINT32 DeviceID = pData.deviceId;
+	GR_CHAR* GPUName = pData.gpuName;
+
+	std::cout << "VendorID: " << VendorID <<
+		std::endl << "DeviceID: " << DeviceID <<
+		std::endl << "GPUName: " << GPUName << std::endl;
+
+	std::cin.get();
 	grDestroyDevice(Device);
 	return 0;
 }
