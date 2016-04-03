@@ -8,7 +8,7 @@
 
 GR_RESULT Result;
 
-void ErrorCheck(GR_RESULT Check)
+void MessageHelper(GR_RESULT Check)
 {
 	switch (Check)
 	{
