@@ -55,8 +55,8 @@ int main()
 
 	if (Result == GR_SUCCESS)
 	{
-		std::cout << "VendorID: " << pData.vendorId <<
-			std::endl << "DeviceID: " << pData.deviceId <<
+		std::cout << "VendorID: 0x" << pData.vendorId <<
+			std::endl << "DeviceID: 0x" << pData.deviceId <<
 			std::endl << "GPUName: " << pData.gpuName << std::endl;
 
 		std::cin.get();
