@@ -27,7 +27,7 @@ void InitMantle()
 	MessageHelper(grInitAndEnumerateGpus(&AppInfo, GR_NULL_HANDLE, &GPUCount, gpus));
 
 	GR_SIZE pDataSize = 0;
-	MessageHelper(grGetGpuInfo(gpus[0], GR_INFO_TYPE_PHYSICAL_GPU_QUEUE_PROPERTIES, &pDataSize, &pData));
+	MessageHelper(grGetGpuInfo(gpus[0], GR_INFO_TYPE_PHYSICAL_GPU_PROPERTIES, &pDataSize, &pData));
 
 	GR_DEVICE_QUEUE_CREATE_INFO QueueInfo{};
 	QueueInfo.queueType = GR_QUEUE_UNIVERSAL;
