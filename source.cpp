@@ -22,11 +22,11 @@ void InitMantle()
 	AppInfo.apiVersion = GR_API_VERSION;
 	AppInfo.pAppName = "InitMantle";
 
-	GR_PHYSICAL_GPU gpus[GR_MAX_PHYSICAL_GPUS]{};
-	GR_UINT GPUCount = 0;
+	GR_UINT GPUCount;
+	GR_PHYSICAL_GPU gpus[GR_MAX_PHYSICAL_GPUS];
 	MessageHelper(grInitAndEnumerateGpus(&AppInfo, GR_NULL_HANDLE, &GPUCount, gpus));
 
-	GR_SIZE pDataSize = 0;
+	GR_SIZE pDataSize = sizeof(GR_PHYSICAL_GPU_PROPERTIES);
 	MessageHelper(grGetGpuInfo(gpus[0], GR_INFO_TYPE_PHYSICAL_GPU_PROPERTIES, &pDataSize, &pData));
 
 	GR_DEVICE_QUEUE_CREATE_INFO QueueInfo{};
