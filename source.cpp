@@ -18,9 +18,10 @@ void InitMantle()
 	grDestroyDevice = reinterpret_cast<DestroyDevice>(
 		GetProcAddress(hModule, "grDestroyDevice"));
 
-	GR_APPLICATION_INFO AppInfo{};
+	GR_APPLICATION_INFO AppInfo = {};
+	AppInfo.pAppName = "MantleInit";
+	AppInfo.pEngineName = "MantleEngine";
 	AppInfo.apiVersion = GR_API_VERSION;
-	AppInfo.pAppName = "InitMantle";
 
 	GR_UINT GPUCount;
 	GR_PHYSICAL_GPU gpus[GR_MAX_PHYSICAL_GPUS];
@@ -29,16 +30,16 @@ void InitMantle()
 	GR_SIZE pDataSize = sizeof(GR_PHYSICAL_GPU_PROPERTIES);
 	MessageHelper(grGetGpuInfo(gpus[0], GR_INFO_TYPE_PHYSICAL_GPU_PROPERTIES, &pDataSize, &pData));
 
-	GR_DEVICE_QUEUE_CREATE_INFO QueueInfo{};
-	QueueInfo.queueType = GR_QUEUE_UNIVERSAL;
+	GR_DEVICE_QUEUE_CREATE_INFO QueueInfo = {};
 	QueueInfo.queueCount = 1;
+	QueueInfo.queueType = GR_QUEUE_UNIVERSAL;
 
-	static const GR_CHAR* const ppExtensions[] = { "GR_WSI_WINDOWS" };
+	static const GR_CHAR* const ppExtensions[] = { "GR_WSI_WINDOWS", "GR_BORDER_COLOR_PALETTE" };
 
-	GR_DEVICE_CREATE_INFO DeviceInfo{};
+	GR_DEVICE_CREATE_INFO DeviceInfo = {};
 	DeviceInfo.queueRecordCount = 1;
 	DeviceInfo.pRequestedQueues = &QueueInfo;
-	DeviceInfo.extensionCount = 1;
+	DeviceInfo.extensionCount = 2;
 	DeviceInfo.ppEnabledExtensionNames = ppExtensions;
 #if defined(DEBUG) || defined(_DEBUG)
 	DeviceInfo.maxValidationLevel = GR_VALIDATION_LEVEL_4;
