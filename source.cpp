@@ -44,7 +44,7 @@ void InitMantleAPI()
 	QueueInfo.queueCount = 1;
 	QueueInfo.queueType = GR_QUEUE_UNIVERSAL;
 
-	static const GR_CHAR* const ppExtensions[] = { "GR_WSI_WINDOWS", "GR_BORDER_COLOR_PALETTE" };
+	GR_CHAR* ppExtensions[] = { "GR_WSI_WINDOWS", "GR_BORDER_COLOR_PALETTE" };
 
 	GR_DEVICE_CREATE_INFO DeviceInfo = {};
 	DeviceInfo.queueRecordCount = 1;
