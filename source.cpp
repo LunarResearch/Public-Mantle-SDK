@@ -18,6 +18,8 @@ void InitMantle()
 	grDestroyDevice = reinterpret_cast<DestroyDevice>(
 		GetProcAddress(hModule, "grDestroyDevice"));
 
+
+	//====================== grInitAndEnumerateGpus ======================
 	GR_APPLICATION_INFO AppInfo = {};
 	AppInfo.pAppName = "MantleInit";
 	AppInfo.pEngineName = "MantleEngine";
@@ -25,11 +27,19 @@ void InitMantle()
 
 	GR_UINT GPUCount;
 	GR_PHYSICAL_GPU gpus[GR_MAX_PHYSICAL_GPUS];
+	std::cout << "Initialization grInitAndEnumerateGpus: " << std::ends;
 	MessageHelper(grInitAndEnumerateGpus(&AppInfo, GR_NULL_HANDLE, &GPUCount, gpus));
+	//====================================================================
 
+
+	//=========================== grGetGpuInfo ===========================
 	GR_SIZE pDataSize = sizeof(GR_PHYSICAL_GPU_PROPERTIES);
+	std::cout << "Initialization grGetGpuInfo:           " << std::ends;
 	MessageHelper(grGetGpuInfo(gpus[0], GR_INFO_TYPE_PHYSICAL_GPU_PROPERTIES, &pDataSize, &pData));
+	//====================================================================
 
+
+	//========================== grCreateDevice ==========================
 	GR_DEVICE_QUEUE_CREATE_INFO QueueInfo = {};
 	QueueInfo.queueCount = 1;
 	QueueInfo.queueType = GR_QUEUE_UNIVERSAL;
@@ -47,7 +57,9 @@ void InitMantle()
 #else
 	DeviceInfo.maxValidationLevel = GR_VALIDATION_LEVEL_0;
 #endif
+	std::cout << "Initialization grCreateDevice:         " << std::ends;
 	MessageHelper(grCreateDevice(gpus[0], &DeviceInfo, &Device));
+	//====================================================================
 }
 
 int main()
@@ -56,9 +68,9 @@ int main()
 
 	if (Result == GR_SUCCESS)
 	{
-		std::cout << "VendorID: 0x" << pData.vendorId <<
-			std::endl << "DeviceID: 0x" << pData.deviceId <<
-			std::endl << "GPUName: " << pData.gpuName << std::endl;
+		std::cout << "VendorID: 0x" << std::hex << pData.vendorId <<
+			std::endl << "DeviceID: 0x" << std::hex << pData.deviceId <<
+			std::endl << "GPU Name: " << pData.gpuName << std::endl;
 
 		std::cin.get();
 		grDestroyDevice(Device);
