@@ -5,7 +5,7 @@ GR_DEVICE Device = GR_NULL_HANDLE;
 GR_PHYSICAL_GPU_PROPERTIES pData = {};
 HMODULE hModule = 0;
 
-void InitMantle()
+void InitMantleAPI()
 {
 	hModule = LoadLibrary("mantle64.dll"); // or mantle32.dll for 32 bit app
 
@@ -64,7 +64,7 @@ void InitMantle()
 
 int main()
 {
-	InitMantle();
+	InitMantleAPI();
 
 	if (Result == GR_SUCCESS)
 	{
