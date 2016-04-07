@@ -8,6 +8,8 @@ extern "C" {
 #pragma once
 
 typedef char GR_CHAR;
+typedef float GR_FLOAT;
+typedef signed int GR_INT;
 typedef unsigned int GR_UINT;
 typedef unsigned __int32 GR_UINT32;
 typedef unsigned __int64 GR_UINT64;
@@ -33,12 +35,18 @@ typedef unsigned int GR_BOOL;
 
 #define GR_HANDLE(object) typedef struct object##_T* object;
 
-GR_HANDLE(GR_DEVICE)
 GR_HANDLE(GR_PHYSICAL_GPU)
+GR_HANDLE(GR_DEVICE)
+GR_HANDLE(GR_GPU_MEMORY)
+GR_HANDLE(GR_BASE_OBJECT)
+GR_HANDLE(GR_OBJECT)
+GR_HANDLE(GR_CMD_BUFFER)
+GR_HANDLE(GR_EVENT)
 
 #define GR_STDCALL __stdcall
 #define GR_MAX_PHYSICAL_GPUS 4
 #define GR_MAX_PHYSICAL_GPU_NAME 256
+#define GR_MAX_MEMORY_HEAPS 8
 
 typedef enum _GR_RESULT {
 	GR_SUCCESS = 0x10000,
@@ -81,8 +89,8 @@ typedef enum _GR_RESULT {
 	GR_ERROR_MEMORY_NOT_BOUND,
 	GR_ERROR_INCOMPATIBLE_QUEUE,
 	GR_ERROR_NOT_SHAREABLE,
-	GR_WSI_WIN_PRESENT_OCCLUDED,                  // = 0x12000 ???
-	GR_WSI_WIN_ERROR_FULLSCREEN_UNAVAILABLE,      // = 0x13000 ???
+	GR_WSI_WIN_PRESENT_OCCLUDED,             // = 0x12000 ???
+	GR_WSI_WIN_ERROR_FULLSCREEN_UNAVAILABLE, // = 0x13000 ???
 	GR_WSI_WIN_ERROR_DISPLAY_REMOVED,
 	GR_WSI_WIN_ERROR_INCOMPATIBLE_DISPLAY_MODE,
 	GR_WSI_WIN_ERROR_MULTI_DEVICE_PRESENT_FAILED,
@@ -126,6 +134,22 @@ typedef enum _GR_INFO_TYPE {
 	GR_INFO_TYPE_PARENT_DEVICE = 0x6801,
 	GR_INFO_TYPE_PARENT_PHYSICAL_GPU = 0x6802,
 } GR_INFO_TYPE;
+
+typedef enum _GR_MEMORY_PRIORITY {
+	GR_MEMORY_PRIORITY_NORMAL = 0x1100,
+	GR_MEMORY_PRIORITY_HIGH = 0x1101,
+	GR_MEMORY_PRIORITY_LOW = 0x1102,
+	GR_MEMORY_PRIORITY_UNUSED = 0x1103,
+	GR_MEMORY_PRIORITY_VERY_HIGH = 0x1104,
+	GR_MEMORY_PRIORITY_VERY_LOW = 0x1105,
+} GR_MEMORY_PRIORITY;
+
+typedef enum _GR_CMD_BUFFER_BUILD_FLAGS {
+	GR_CMD_BUFFER_OPTIMIZE_GPU_SMALL_BATCH = 0x00000001,
+	GR_CMD_BUFFER_OPTIMIZE_PIPELINE_SWITCH = 0x00000002,
+	GR_CMD_BUFFER_OPTIMIZE_ONE_TIME_SUBMIT = 0x00000004,
+	GR_CMD_BUFFER_OPTIMIZE_DESCRIPTOR_SET_SWITCH = 0x00000008,
+} GR_CMD_BUFFER_BUILD_FLAGS;
 
 typedef GR_VOID* (GR_STDCALL* GR_ALLOC_FUNCTION)(
 	GR_SIZE size,
@@ -178,6 +202,38 @@ typedef struct _GR_PHYSICAL_GPU_PROPERTIES {
 	GR_BOOL multiColorTargetClears;
 } GR_PHYSICAL_GPU_PROPERTIES;
 
+typedef struct _GR_MEMORY_ALLOC_INFO {
+	GR_GPU_SIZE size;
+	GR_GPU_SIZE alignment;
+	GR_FLAGS flags;
+	GR_UINT heapCount;
+	GR_UINT heaps[GR_MAX_MEMORY_HEAPS];
+	GR_ENUM memPriority;
+} GR_MEMORY_ALLOC_INFO;
+
+typedef struct _GR_MEMORY_REQUIREMENTS {
+	GR_GPU_SIZE size;
+	GR_GPU_SIZE alignment;
+	GR_UINT heapCount;
+	GR_UINT heaps[GR_MAX_MEMORY_HEAPS];
+} GR_MEMORY_REQUIREMENTS;
+
+typedef struct _GR_CMD_BUFFER_CREATE_INFO {
+	GR_ENUM queueType;
+	GR_FLAGS flags;
+} GR_CMD_BUFFER_CREATE_INFO;
+
+typedef struct _GR_MEMORY_HEAP_PROPERTIES {
+	GR_ENUM heapMemoryType;
+	GR_GPU_SIZE heapSize;
+	GR_GPU_SIZE pageSize;
+	GR_FLAGS flags;
+	GR_FLOAT gpuReadPerfRating;
+	GR_FLOAT gpuWritePerfRating;
+	GR_FLOAT cpuReadPerfRating;
+	GR_FLOAT cpuWritePerfRating;
+} GR_MEMORY_HEAP_PROPERTIES;
+
 typedef GR_RESULT(GR_STDCALL* InitAndEnumerateGpus)(
 	const GR_APPLICATION_INFO* pAppInfo,
 	const GR_ALLOC_CALLBACKS* pAllocCb,
@@ -201,6 +257,58 @@ CreateDevice grCreateDevice;
 typedef GR_RESULT(GR_STDCALL* DestroyDevice)(
 	GR_DEVICE device);
 DestroyDevice grDestroyDevice;
+
+typedef GR_RESULT(GR_STDCALL* GetMemoryHeapCount)(
+	GR_DEVICE device,
+	GR_UINT* pCount);
+GetMemoryHeapCount grGetMemoryHeapCount;
+
+typedef GR_RESULT(GR_STDCALL* GetMemoryHeapInfo)(
+	GR_DEVICE device,
+	GR_UINT heapId,
+	GR_ENUM infoType,
+	GR_SIZE* pDataSize,
+	GR_VOID* pData);
+GetMemoryHeapInfo grGetMemoryHeapInfo;
+
+typedef GR_RESULT(GR_STDCALL* AllocMemory)(
+	GR_DEVICE device,
+	const GR_MEMORY_ALLOC_INFO* pAllocInfo,
+	GR_GPU_MEMORY* pMem);
+AllocMemory grAllocMemory;
+
+typedef GR_RESULT(GR_STDCALL* GetObjectInfo)(
+	GR_BASE_OBJECT object,
+	GR_ENUM infoType,
+	GR_SIZE* pDataSize,
+	GR_VOID* pData);
+GetObjectInfo grGetObjectInfo;
+
+typedef GR_RESULT(GR_STDCALL* BindObjectMemory)(
+	GR_OBJECT object,
+	GR_GPU_MEMORY mem,
+	GR_GPU_SIZE offset);
+BindObjectMemory grBindObjectMemory;
+
+typedef GR_RESULT(GR_STDCALL* CreateCommandBuffer)(
+	GR_DEVICE device,
+	const GR_CMD_BUFFER_CREATE_INFO* pCreateInfo,
+	GR_CMD_BUFFER* pCmdBuffer);
+CreateCommandBuffer grCreateCommandBuffer;
+
+typedef GR_RESULT(GR_STDCALL* BeginCommandBuffer)(
+	GR_CMD_BUFFER cmdBuffer,
+	GR_FLAGS flags);
+BeginCommandBuffer grBeginCommandBuffer;
+
+typedef GR_VOID(GR_STDCALL* CmdSetEvent)(
+	GR_CMD_BUFFER cmdBuffer,
+	GR_EVENT Event);
+CmdSetEvent grCmdSetEvent;
+
+typedef GR_RESULT(GR_STDCALL* EndCommandBuffer)(
+	GR_CMD_BUFFER cmdBuffer);
+EndCommandBuffer grEndCommandBuffer;
 
 #ifdef __cplusplus
 }
