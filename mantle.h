@@ -35,22 +35,15 @@ typedef unsigned int GR_BOOL;
 
 #define GR_HANDLE(object) typedef struct object##_T* object;
 
-#if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__)
-	#define GR_NON_DISPATCHABLE_HANDLE(object) typedef struct object##_T *object;
-#else
-	#define GR_NON_DISPATCHABLE_HANDLE(object) typedef GR_UINT64 object;
-#endif
-
 GR_HANDLE(GR_PHYSICAL_GPU)
 GR_HANDLE(GR_DEVICE)
 GR_HANDLE(GR_CMD_BUFFER)
 GR_HANDLE(GR_QUEUE)
-
+GR_HANDLE(GR_QUERY_POOL)
 GR_HANDLE(GR_BASE_OBJECT)
 GR_HANDLE(GR_OBJECT)
-
-GR_NON_DISPATCHABLE_HANDLE(GR_GPU_MEMORY)
-GR_NON_DISPATCHABLE_HANDLE(GR_EVENT)
+GR_HANDLE(GR_GPU_MEMORY)
+GR_HANDLE(GR_EVENT)
 
 #define GR_STDCALL __stdcall
 #define GR_MAX_PHYSICAL_GPUS 4
