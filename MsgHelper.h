@@ -132,7 +132,7 @@ void MessageHelper(GR_RESULT Check)
 	case GR_ERROR_NOT_SHAREABLE:
 		std::cout << "GR_ERROR_NOT_SHAREABLE" << std::endl;
 		break;
-	/*case GR_WSI_WIN_PRESENT_OCCLUDED:
+	case GR_WSI_WIN_PRESENT_OCCLUDED:
 		std::cout << "GR_WSI_WIN_PRESENT_OCCLUDED" << std::endl;
 		break;
 	case GR_WSI_WIN_ERROR_FULLSCREEN_UNAVAILABLE:
@@ -149,7 +149,7 @@ void MessageHelper(GR_RESULT Check)
 		break;
 	case GR_WSI_WIN_ERROR_BLT_PRESENT_UNAVAILABLE:
 		std::cout << "GR_WSI_WIN_ERROR_BLT_PRESENT_UNAVAILABLE" << std::endl;
-		break;*/
+		break;
 	default:
 		break;
 	}
