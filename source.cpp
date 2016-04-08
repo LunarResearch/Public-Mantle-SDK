@@ -148,7 +148,7 @@ void InitMantleAPI()
 
 	//====================== grCreateCommandBuffer =======================
 	GR_CMD_BUFFER_CREATE_INFO CmdBufferCreateInfo = {};
-	CmdBufferCreateInfo.queueType = GR_QUEUE_COMPUTE;
+	CmdBufferCreateInfo.queueType = GR_QUEUE_UNIVERSAL;
 	std::cout << "Initialization grCreateCommandBuffer:  " << std::ends;
 	MessageHelper(grCreateCommandBuffer(Device, &CmdBufferCreateInfo, &CmdBuffer));
 	//====================================================================
