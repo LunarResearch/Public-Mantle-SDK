@@ -135,7 +135,7 @@ void InitMantleAPI()
 	//====================================================================
 
 
-	//========================== grCreateDevice ==========================
+	//======================== grBindObjectMemory ========================
 	if (MemoryRequirements.size > 0)
 	{
 		GR_GPU_SIZE BindOffset = 0;
