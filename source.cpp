@@ -20,7 +20,11 @@ GR_GPU_MEMORY GetMatchingMemObjectAndOffset(GR_MEMORY_REQUIREMENTS* mem, GR_GPU_
 
 void LoadFunctions()
 {
-	hModule = LoadLibrary("mantle64.dll"); // or mantle32.dll for 32 bit app
+#if defined(WIN64) || defined(_WIN64)
+	hModule = LoadLibrary("mantle64.dll");
+#else
+	hModule = LoadLibrary("mantle32.dll");
+#endif
 
 	grInitAndEnumerateGpus = reinterpret_cast<InitAndEnumerateGpus>(
 		GetProcAddress(hModule, "grInitAndEnumerateGpus"));
