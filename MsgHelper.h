@@ -150,6 +150,9 @@ void MessageHelper(GR_RESULT Check)
 	case GR_WSI_WIN_ERROR_BLT_PRESENT_UNAVAILABLE:
 		std::cout << "GR_WSI_WIN_ERROR_BLT_PRESENT_UNAVAILABLE" << std::endl;
 		break;
+	case GR_WSI_WIN_ERROR_INVALID_RESOLUTION:
+		std::cout << "GR_WSI_WIN_ERROR_INVALID_RESOLUTION" << std::endl;
+		break;
 	default:
 		break;
 	}
