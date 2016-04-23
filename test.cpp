@@ -10,7 +10,7 @@ int main()
 
 	GR_UINT GpuCount = 0;
 	GR_PHYSICAL_GPU gpus[GR_MAX_PHYSICAL_GPUS] = {};
-	GR_RESULT r1 = grInitAndEnumerateGpus(&AppInfo, GR_NULL_HANDLE, &GpuCount, gpus);
+	grInitAndEnumerateGpus(&AppInfo, GR_NULL_HANDLE, &GpuCount, gpus);
 
 	GR_DEVICE_QUEUE_CREATE_INFO req = {};
 	req.queueType = GR_QUEUE_UNIVERSAL;
@@ -31,11 +31,11 @@ int main()
 #endif
 
 	GR_DEVICE device = GR_NULL_HANDLE;
-	GR_RESULT r2 = grCreateDevice(gpus[0], &DeviceInfo, &device);
+	grCreateDevice(gpus[0], &DeviceInfo, &device);
 
 	GR_PHYSICAL_GPU_PROPERTIES prop = {};
 	GR_SIZE size = sizeof(GR_PHYSICAL_GPU_PROPERTIES);
-	GR_RESULT r3 = grGetGpuInfo(gpus[0], GR_INFO_TYPE_PHYSICAL_GPU_PROPERTIES, &size, &prop);
+	grGetGpuInfo(gpus[0], GR_INFO_TYPE_PHYSICAL_GPU_PROPERTIES, &size, &prop);
 
 	std::cout << "VendorID: 0x" << std::hex << prop.vendorId << std::endl;
 	std::cout << "DeviceID: 0x" << std::hex << prop.deviceId << std::endl;
