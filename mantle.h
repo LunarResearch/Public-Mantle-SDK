@@ -594,14 +594,14 @@ typedef GR_VOID* (GR_STDCALL *GR_ALLOC_FUNCTION)(
 
 typedef GR_VOID(GR_STDCALL *GR_FREE_FUNCTION)(
 	GR_VOID* pMem);
-
-
-// ==================== STRUCTURES ====================
+	
 typedef struct _GR_ALLOC_CALLBACKS {
 	GR_ALLOC_FUNCTION pfnAlloc;
 	GR_FREE_FUNCTION pfnFree;
 } GR_ALLOC_CALLBACKS;
 
+
+// ==================== STRUCTURES ====================
 typedef struct _GR_APPLICATION_INFO {
 	const GR_CHAR* pAppName;
 	GR_UINT32 appVersion;
