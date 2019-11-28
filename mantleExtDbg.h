@@ -2,15 +2,15 @@
 #ifndef MANTLEEXTDBG_H_
 #define MANTLEEXTDBG_H_
 
+#include "mantleExt.h"
+
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-// something ???
+	// something ???
 
 #ifdef __cplusplus
 }
 #endif
-
 #endif
