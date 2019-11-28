@@ -13,13 +13,13 @@ extern "C" {
 	// ==================== ENUMERATIONS ====================
 	// ======================================================
 	typedef enum _GR_DBG_DATA_TYPE {
-		GR_DBG_DATA_OBJECT_TYPE = 0x00020a00, // object type with grGetObjectInfo()
-		GR_DBG_DATA_OBJECT_CREATE_INFO = 0x00020a01, // object creation information with grGetObjectInfo()
-		GR_DBG_DATA_OBJECT_TAG = 0x00020a02, // object debug tag with grGetObjectInfo()
-		GR_DBG_DATA_CMD_BUFFER_API_TRACE = 0x00020b00, // recorded command buffer API trace with grGetObjectInfo(), valid only for command buffer objects
-		GR_DBG_DATA_MEMORY_OBJECT_LAYOUT = 0x00020c00, // ranges of memory object bindings with grGetObjectInfo(), valid only for memory objects
-		GR_DBG_DATA_MEMORY_OBJECT_STATE = 0x00020c01,  // ranges of memory object state with grGetObjectInfo(), valid only for memory objects
-		GR_DBG_DATA_SEMAPHORE_IS_BLOCKED = 0x00020d00, // internal status of a semaphore with grGetObjectInfo(), valid only for semaphore objects
+		GR_DBG_DATA_OBJECT_TYPE = 0x00020a00,
+		GR_DBG_DATA_OBJECT_CREATE_INFO = 0x00020a01,
+		GR_DBG_DATA_OBJECT_TAG = 0x00020a02,
+		GR_DBG_DATA_CMD_BUFFER_API_TRACE = 0x00020b00,
+		GR_DBG_DATA_MEMORY_OBJECT_LAYOUT = 0x00020c00,
+		GR_DBG_DATA_MEMORY_OBJECT_STATE = 0x00020c01,
+		GR_DBG_DATA_SEMAPHORE_IS_BLOCKED = 0x00020d00,
 	} GR_DBG_DATA_TYPE;
 
 	typedef enum _GR_DBG_DEVICE_OPTION {
