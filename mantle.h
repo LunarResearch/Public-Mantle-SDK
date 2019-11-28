@@ -1489,7 +1489,7 @@ extern "C" {
 
 	GR_RESULT grBeginCommandBuffer(
 		_In_ GR_CMD_BUFFER cmdBuffer,
-		_In_ GR_FLAGS flags);
+		_In_ GR_CMD_BUFFER_BUILD_FLAGS flags);
 
 	GR_RESULT grEndCommandBuffer(
 		_In_ GR_CMD_BUFFER cmdBuffer);
