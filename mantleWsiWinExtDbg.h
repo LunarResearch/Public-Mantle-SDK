@@ -2,15 +2,15 @@
 #ifndef MANTLEWSIWINEXTDBG_H_
 #define MANTLEWSIWINEXTDBG_H_
 
+#include "mantleWsiWinExt.h"
+
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-// something ???
+	// something ???
 
 #ifdef __cplusplus
 }
 #endif
-
 #endif
