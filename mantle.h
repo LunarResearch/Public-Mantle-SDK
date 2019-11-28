@@ -75,7 +75,10 @@ extern "C" {
 #define GR_CONTROL_FLOW_EXTENSION_NAME "GR_CONTROL_FLOW"
 #define GR_RESOURCE_STATE_ACCESS_EXTENSION_NAME "GR_RESOURCE_STATE_ACCESS"
 
-	// ==================== ENUMERATIONS ====================
+
+	// ======================================================
+	// =================== ENUMERATIONS =====================
+	// ======================================================
 	typedef enum _GR_RESULT {
 		GR_SUCCESS = 0x10000,
 		GR_UNSUPPORTED,
@@ -492,7 +495,9 @@ extern "C" {
 	} GR_VALIDATION_LEVEL;
 
 
-	// ==================== FLAGS ====================
+	// ======================================================
+	// ======================= FLAGS ========================
+	// ======================================================
 	typedef enum _GR_CMD_BUFFER_BUILD_FLAGS {
 		GR_CMD_BUFFER_OPTIMIZE_GPU_SMALL_BATCH = 0x00000001,
 		GR_CMD_BUFFER_OPTIMIZE_PIPELINE_SWITCH = 0x00000002,
@@ -588,7 +593,9 @@ extern "C" {
 	} GR_SHADER_CREATE_FLAGS;
 
 
-	// ==================== CALLBACKS ====================
+	// ======================================================
+	// ===================== CALLBACKS ======================
+	// ======================================================
 	typedef GR_VOID* (GR_STDCALL *GR_ALLOC_FUNCTION)(
 		GR_SIZE size,
 		GR_SIZE alignment,
@@ -598,7 +605,9 @@ extern "C" {
 		GR_VOID* pMem);
 
 
-	// ==================== STRUCTURES ====================
+	// ======================================================
+	// ==================== STRUCTURES ======================
+	// ======================================================
 	typedef struct _GR_ALLOC_CALLBACKS {
 		GR_ALLOC_FUNCTION pfnAlloc;
 		GR_FREE_FUNCTION pfnFree;
@@ -1150,560 +1159,563 @@ extern "C" {
 		GR_GPU_SIZE pageCount;
 	} GR_VIRTUAL_MEMORY_REMAP_RANGE;
 
-
-	// ==================== FUNCTIONS ====================
+	
+	// ======================================================
+	// ===================== FUNCTIONS ======================
+	// ======================================================
 	GR_RESULT grInitAndEnumerateGpus(
-		const GR_APPLICATION_INFO* pAppInfo,
-		const GR_ALLOC_CALLBACKS* pAllocCb,
-		GR_UINT* pGpuCount,
-		GR_PHYSICAL_GPU gpus[GR_MAX_PHYSICAL_GPUS]);
+		_In_ const GR_APPLICATION_INFO* pAppInfo,
+		_In_opt_ const GR_ALLOC_CALLBACKS* pAllocCb,
+		_Out_ GR_UINT* pGpuCount,
+		_Out_ GR_PHYSICAL_GPU gpus[GR_MAX_PHYSICAL_GPUS]);
 
 	GR_RESULT grGetGpuInfo(
-		GR_PHYSICAL_GPU gpu,
-		GR_ENUM infoType,
-		GR_SIZE* pDataSize,
-		GR_VOID* pData);
+		_In_ GR_PHYSICAL_GPU gpu,
+		_In_ GR_INFO_TYPE infoType,
+		_Inout_opt_ GR_SIZE* pDataSize,
+		_Out_opt_ GR_VOID* pData);
 
 	GR_RESULT grCreateDevice(
-		GR_PHYSICAL_GPU gpu,
-		const GR_DEVICE_CREATE_INFO* pCreateInfo,
-		GR_DEVICE* pDevice);
+		_In_ GR_PHYSICAL_GPU gpu,
+		_In_ const GR_DEVICE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_DEVICE* pDevice);
 
 	GR_RESULT grDestroyDevice(
-		GR_DEVICE device);
+		_In_ GR_DEVICE device);
 
 	GR_RESULT grGetExtensionSupport(
-		GR_PHYSICAL_GPU gpu,
-		const GR_CHAR* pExtName);
+		_In_ GR_PHYSICAL_GPU gpu,
+		_In_ const GR_CHAR* pExtName);
 
 	GR_RESULT grGetDeviceQueue(
-		GR_DEVICE device,
-		GR_ENUM queueType,
-		GR_UINT queueId,
-		GR_QUEUE* pQueue);
+		_In_ GR_DEVICE device,
+		_In_ GR_QUEUE_TYPE queueType,
+		_In_ GR_UINT queueId,
+		_Out_ GR_QUEUE* pQueue);
 
 	GR_RESULT grQueueWaitIdle(
-		GR_QUEUE queue);
+		_In_ GR_QUEUE queue);
 
 	GR_RESULT grDeviceWaitIdle(
-		GR_DEVICE device);
+		_In_ GR_DEVICE device);
 
 	GR_RESULT grQueueSubmit(
-		GR_QUEUE queue,
-		GR_UINT cmdBufferCount,
-		const GR_CMD_BUFFER* pCmdBuffers,
-		GR_UINT memRefCount,
-		const GR_MEMORY_REF* pMemRefs,
-		GR_FENCE fence);
+		_In_ GR_QUEUE queue,
+		_In_ GR_UINT cmdBufferCount,
+		_In_ const GR_CMD_BUFFER* pCmdBuffers,
+		_In_opt_ GR_UINT memRefCount,
+		_In_opt_ const GR_MEMORY_REF* pMemRefs,
+		_In_ GR_FENCE fence);
 
 	GR_RESULT grQueueSetGlobalMemReferences(
-		GR_QUEUE queue,
-		GR_UINT memRefCount,
-		const GR_MEMORY_REF* pMemRefs);
+		_In_ GR_QUEUE queue,
+		_In_opt_ GR_UINT memRefCount,
+		_In_opt_ const GR_MEMORY_REF* pMemRefs);
 
 	GR_RESULT grGetMemoryHeapCount(
-		GR_DEVICE device,
-		GR_UINT* pCount);
+		_In_ GR_DEVICE device,
+		_Out_ GR_UINT* pCount);
 
 	GR_RESULT grGetMemoryHeapInfo(
-		GR_DEVICE device,
-		GR_UINT heapId,
-		GR_ENUM infoType,
-		GR_SIZE* pDataSize,
-		GR_VOID* pData);
+		_In_ GR_DEVICE device,
+		_In_ GR_UINT heapId,
+		_In_ GR_INFO_TYPE infoType,
+		_Inout_opt_ GR_SIZE* pDataSize,
+		_Out_opt_ GR_VOID* pData);
 
 	GR_RESULT grAllocMemory(
-		GR_DEVICE device,
-		const GR_MEMORY_ALLOC_INFO* pAllocInfo,
-		GR_GPU_MEMORY* pMem);
+		_In_ GR_DEVICE device,
+		_In_ const GR_MEMORY_ALLOC_INFO* pAllocInfo,
+		_Out_ GR_GPU_MEMORY* pMem);
 
 	GR_RESULT grFreeMemory(
-		GR_GPU_MEMORY mem);
+		_In_ GR_GPU_MEMORY mem);
 
 	GR_RESULT grSetMemoryPriority(
-		GR_GPU_MEMORY mem,
-		GR_ENUM priority);
+		_In_ GR_GPU_MEMORY mem,
+		_In_ GR_MEMORY_PRIORITY priority);
 
 	GR_RESULT grMapMemory(
-		GR_GPU_MEMORY mem,
-		GR_FLAGS flags,
-		GR_VOID** ppData);
+		_In_ GR_GPU_MEMORY mem,
+		_In_ GR_FLAGS flags, // reserved
+		_Out_ GR_VOID** ppData);
 
 	GR_RESULT grUnmapMemory(
-		GR_GPU_MEMORY mem);
+		_In_ GR_GPU_MEMORY mem);
 
 	GR_RESULT grRemapVirtualMemoryPages(
-		GR_DEVICE device,
-		GR_UINT rangeCount,
-		const GR_VIRTUAL_MEMORY_REMAP_RANGE* pRanges,
-		GR_UINT preWaitSemaphoreCount,
-		const GR_QUEUE_SEMAPHORE* pPreWaitSemaphores,
-		GR_UINT postSignalSemaphoreCount,
-		const GR_QUEUE_SEMAPHORE* pPostSignalSemaphores);
+		_In_ GR_DEVICE device,
+		_In_ GR_UINT rangeCount,
+		_In_ const GR_VIRTUAL_MEMORY_REMAP_RANGE* pRanges,
+		_In_opt_ GR_UINT preWaitSemaphoreCount,
+		_In_opt_ const GR_QUEUE_SEMAPHORE* pPreWaitSemaphores,
+		_In_opt_ GR_UINT postSignalSemaphoreCount,
+		_In_opt_ const GR_QUEUE_SEMAPHORE* pPostSignalSemaphores);
 
 	GR_RESULT grPinSystemMemory(
-		GR_DEVICE device,
-		const GR_VOID* pSysMem,
-		GR_SIZE memSize,
-		GR_GPU_MEMORY* pMem);
+		_In_ GR_DEVICE device,
+		_In_ const GR_VOID* pSysMem, // GR_MEMORY_HEAP_FLAG_HOLDS_PINNED
+		_In_ GR_SIZE memSize, // GR_MEMORY_HEAP_FLAG_HOLDS_PINNED
+		_Out_ GR_GPU_MEMORY* pMem);
 
 	GR_RESULT grDestroyObject(
-		GR_OBJECT object);
+		_In_ GR_OBJECT object);
 
 	GR_RESULT grGetObjectInfo(
-		GR_BASE_OBJECT object,
-		GR_ENUM infoType,
-		GR_SIZE* pDataSize,
-		GR_VOID* pData);
+		_In_ GR_BASE_OBJECT object,
+		_In_ GR_ENUM infoType,
+		_Inout_opt_ GR_SIZE* pDataSize,
+		_Out_opt_ GR_VOID* pData);
 
 	GR_RESULT grBindObjectMemory(
-		GR_OBJECT object,
-		GR_GPU_MEMORY mem,
-		GR_GPU_SIZE offset);
+		_In_ GR_OBJECT object,
+		_In_opt_ GR_GPU_MEMORY mem,
+		_In_ GR_GPU_SIZE offset);
 
 	GR_RESULT grGetFormatInfo(
-		GR_DEVICE device,
-		GR_FORMAT format,
-		GR_ENUM infoType,
-		GR_SIZE* pDataSize,
-		GR_VOID* pData);
+		_In_ GR_DEVICE device,
+		_In_ GR_FORMAT format,
+		_In_ GR_INFO_TYPE infoType,
+		_Inout_opt_ GR_SIZE* pDataSize,
+		_Out_opt_ GR_VOID* pData);
 
 	GR_RESULT grCreateImage(
-		GR_DEVICE device,
-		const GR_IMAGE_CREATE_INFO* pCreateInfo,
-		GR_IMAGE* pImage);
+		_In_ GR_DEVICE device,
+		_In_ const GR_IMAGE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_IMAGE* pImage);
 
 	GR_RESULT grGetImageSubresourceInfo(
-		GR_IMAGE image,
-		const GR_IMAGE_SUBRESOURCE* pSubresource,
-		GR_ENUM infoType,
-		GR_SIZE* pDataSize,
-		GR_VOID* pData);
+		_In_ GR_IMAGE image,
+		_In_ const GR_IMAGE_SUBRESOURCE* pSubresource,
+		_In_ GR_INFO_TYPE infoType,
+		_Inout_opt_ GR_SIZE* pDataSize,
+		_Out_opt_ GR_VOID* pData);
 
 	GR_RESULT grCreateSampler(
-		GR_DEVICE device,
-		const GR_SAMPLER_CREATE_INFO* pCreateInfo,
-		GR_SAMPLER* pSampler);
+		_In_ GR_DEVICE device,
+		_In_ const GR_SAMPLER_CREATE_INFO* pCreateInfo,
+		_Out_ GR_SAMPLER* pSampler);
 
 	GR_RESULT grCreateImageView(
-		GR_DEVICE device,
-		const GR_IMAGE_VIEW_CREATE_INFO* pCreateInfo,
-		GR_IMAGE_VIEW* pView);
+		_In_ GR_DEVICE device,
+		_In_ const GR_IMAGE_VIEW_CREATE_INFO* pCreateInfo,
+		_Out_ GR_IMAGE_VIEW* pView);
 
 	GR_RESULT grCreateColorTargetView(
-		GR_DEVICE device,
-		const GR_COLOR_TARGET_VIEW_CREATE_INFO* pCreateInfo,
-		GR_COLOR_TARGET_VIEW* pView);
+		_In_ GR_DEVICE device,
+		_In_ const GR_COLOR_TARGET_VIEW_CREATE_INFO* pCreateInfo,
+		_Out_ GR_COLOR_TARGET_VIEW* pView);
 
 	GR_RESULT grCreateDepthStencilView(
-		GR_DEVICE device,
-		const GR_DEPTH_STENCIL_VIEW_CREATE_INFO* pCreateInfo,
-		GR_DEPTH_STENCIL_VIEW* pView);
+		_In_ GR_DEVICE device,
+		_In_ const GR_DEPTH_STENCIL_VIEW_CREATE_INFO* pCreateInfo,
+		_Out_ GR_DEPTH_STENCIL_VIEW* pView);
 
 	GR_RESULT grCreateShader(
-		GR_DEVICE device,
-		const GR_SHADER_CREATE_INFO* pCreateInfo,
-		GR_SHADER* pShader);
+		_In_ GR_DEVICE device,
+		_In_ const GR_SHADER_CREATE_INFO* pCreateInfo,
+		_Out_ GR_SHADER* pShader);
 
 	GR_RESULT grCreateGraphicsPipeline(
-		GR_DEVICE device,
-		const GR_GRAPHICS_PIPELINE_CREATE_INFO* pCreateInfo,
-		GR_PIPELINE* pPipeline);
+		_In_ GR_DEVICE device,
+		_In_ const GR_GRAPHICS_PIPELINE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_PIPELINE* pPipeline);
 
 	GR_RESULT grCreateComputePipeline(
-		GR_DEVICE device,
-		const GR_COMPUTE_PIPELINE_CREATE_INFO* pCreateInfo,
-		GR_PIPELINE* pPipeline);
+		_In_ GR_DEVICE device,
+		_In_ const GR_COMPUTE_PIPELINE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_PIPELINE* pPipeline);
 
 	GR_RESULT grStorePipeline(
-		GR_PIPELINE pipeline,
-		GR_SIZE* pDataSize,
-		GR_VOID* pData);
+		_In_ GR_PIPELINE pipeline,
+		_Inout_opt_ GR_SIZE* pDataSize,
+		_Out_opt_ GR_VOID* pData);
 
 	GR_RESULT grLoadPipeline(
-		GR_DEVICE device,
-		GR_SIZE dataSize,
-		const GR_VOID* pData,
-		GR_PIPELINE* pPipeline);
+		_In_ GR_DEVICE device,
+		_In_ GR_SIZE dataSize,
+		_In_ const GR_VOID* pData, // generated by grStorePipeline()
+		_Out_ GR_PIPELINE* pPipeline);
 
 	GR_RESULT grCreateDescriptorSet(
-		GR_DEVICE device,
-		const GR_DESCRIPTOR_SET_CREATE_INFO* pCreateInfo,
-		GR_DESCRIPTOR_SET* pDescriptorSet);
+		_In_ GR_DEVICE device,
+		_In_ const GR_DESCRIPTOR_SET_CREATE_INFO* pCreateInfo,
+		_Out_ GR_DESCRIPTOR_SET* pDescriptorSet);
 
 	GR_VOID grBeginDescriptorSetUpdate(
-		GR_DESCRIPTOR_SET descriptorSet);
+		_In_ GR_DESCRIPTOR_SET descriptorSet);
 
 	GR_VOID grEndDescriptorSetUpdate(
-		GR_DESCRIPTOR_SET descriptorSet);
+		_In_ GR_DESCRIPTOR_SET descriptorSet);
 
 	GR_VOID grAttachSamplerDescriptors(
-		GR_DESCRIPTOR_SET descriptorSet,
-		GR_UINT startSlot,
-		GR_UINT slotCount,
-		const GR_SAMPLER* pSamplers);
+		_In_ GR_DESCRIPTOR_SET descriptorSet,
+		_In_ GR_UINT startSlot,
+		_In_ GR_UINT slotCount,
+		_In_ const GR_SAMPLER* pSamplers);
 
 	GR_VOID grAttachImageViewDescriptors(
-		GR_DESCRIPTOR_SET descriptorSet,
-		GR_UINT startSlot,
-		GR_UINT slotCount,
-		const GR_IMAGE_VIEW_ATTACH_INFO* pImageViews);
+		_In_ GR_DESCRIPTOR_SET descriptorSet,
+		_In_ GR_UINT startSlot,
+		_In_ GR_UINT slotCount,
+		_In_ const GR_IMAGE_VIEW_ATTACH_INFO* pImageViews);
 
 	GR_VOID grAttachMemoryViewDescriptors(
-		GR_DESCRIPTOR_SET descriptorSet,
-		GR_UINT startSlot,
-		GR_UINT slotCount,
-		const GR_MEMORY_VIEW_ATTACH_INFO* pMemViews);
+		_In_ GR_DESCRIPTOR_SET descriptorSet,
+		_In_ GR_UINT startSlot,
+		_In_ GR_UINT slotCount,
+		_In_ const GR_MEMORY_VIEW_ATTACH_INFO* pMemViews);
 
 	GR_VOID grAttachNestedDescriptors(
-		GR_DESCRIPTOR_SET descriptorSet,
-		GR_UINT startSlot,
-		GR_UINT slotCount,
-		const GR_DESCRIPTOR_SET_ATTACH_INFO* pNestedDescriptorSets);
+		_In_ GR_DESCRIPTOR_SET descriptorSet,
+		_In_ GR_UINT startSlot,
+		_In_ GR_UINT slotCount,
+		_In_ const GR_DESCRIPTOR_SET_ATTACH_INFO* pNestedDescriptorSets);
 
 	GR_VOID grClearDescriptorSetSlots(
-		GR_DESCRIPTOR_SET descriptorSet,
-		GR_UINT startSlot,
-		GR_UINT slotCount);
+		_In_ GR_DESCRIPTOR_SET descriptorSet,
+		_In_ GR_UINT startSlot,
+		_In_ GR_UINT slotCount);
 
 	GR_RESULT grCreateViewportState(
-		GR_DEVICE device,
-		const GR_VIEWPORT_STATE_CREATE_INFO* pCreateInfo,
-		GR_VIEWPORT_STATE_OBJECT* pState);
+		_In_ GR_DEVICE device,
+		_In_ const GR_VIEWPORT_STATE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_VIEWPORT_STATE_OBJECT* pState);
 
 	GR_RESULT grCreateRasterState(
-		GR_DEVICE device,
-		const GR_RASTER_STATE_CREATE_INFO* pCreateInfo,
-		GR_RASTER_STATE_OBJECT* pState);
+		_In_ GR_DEVICE device,
+		_In_ const GR_RASTER_STATE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_RASTER_STATE_OBJECT* pState);
 
 	GR_RESULT grCreateColorBlendState(
-		GR_DEVICE device,
-		const GR_COLOR_BLEND_STATE_CREATE_INFO* pCreateInfo,
-		GR_COLOR_BLEND_STATE_OBJECT* pState);
+		_In_ GR_DEVICE device,
+		_In_ const GR_COLOR_BLEND_STATE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_COLOR_BLEND_STATE_OBJECT* pState);
 
 	GR_RESULT grCreateDepthStencilState(
-		GR_DEVICE device,
-		const GR_DEPTH_STENCIL_STATE_CREATE_INFO* pCreateInfo,
-		GR_DEPTH_STENCIL_STATE_OBJECT* pState);
+		_In_ GR_DEVICE device,
+		_In_ const GR_DEPTH_STENCIL_STATE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_DEPTH_STENCIL_STATE_OBJECT* pState);
 
 	GR_RESULT grCreateMsaaState(
-		GR_DEVICE device,
-		const GR_MSAA_STATE_CREATE_INFO* pCreateInfo,
-		GR_MSAA_STATE_OBJECT* pState);
+		_In_ GR_DEVICE device,
+		_In_ const GR_MSAA_STATE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_MSAA_STATE_OBJECT* pState);
 
 	GR_RESULT grCreateQueryPool(
-		GR_DEVICE device,
-		const GR_QUERY_POOL_CREATE_INFO* pCreateInfo,
-		GR_QUERY_POOL* pQueryPool);
+		_In_ GR_DEVICE device,
+		_In_ const GR_QUERY_POOL_CREATE_INFO* pCreateInfo,
+		_Out_ GR_QUERY_POOL* pQueryPool);
 
 	GR_RESULT grGetQueryPoolResults(
-		GR_QUERY_POOL queryPool,
-		GR_UINT startQuery,
-		GR_UINT queryCount,
-		GR_SIZE* pDataSize,
-		GR_VOID* pData);
+		_In_ GR_QUERY_POOL queryPool,
+		_In_ GR_UINT startQuery,
+		_In_ GR_UINT queryCount,
+		_Inout_opt_ GR_SIZE* pDataSize,
+		_Out_opt_ GR_VOID* pData);
 
 	GR_RESULT grCreateFence(
-		GR_DEVICE device,
-		const GR_FENCE_CREATE_INFO* pCreateInfo,
-		GR_FENCE* pFence);
+		_In_ GR_DEVICE device,
+		_In_ const GR_FENCE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_FENCE* pFence);
 
 	GR_RESULT grGetFenceStatus(
-		GR_FENCE fence);
+		_In_ GR_FENCE fence);
 
 	GR_RESULT grWaitForFences(
-		GR_DEVICE device,
-		GR_UINT fenceCount,
-		const GR_FENCE* pFences,
-		GR_BOOL waitAll,
-		GR_FLOAT timeout);
+		_In_ GR_DEVICE device,
+		_In_ GR_UINT fenceCount,
+		_In_ const GR_FENCE* pFences,
+		_In_ GR_BOOL waitAll,
+		_In_ GR_FLOAT timeout);
 
 	GR_RESULT grCreateQueueSemaphore(
-		GR_DEVICE device,
-		const GR_QUEUE_SEMAPHORE_CREATE_INFO* pCreateInfo,
-		GR_QUEUE_SEMAPHORE* pSemaphore);
+		_In_ GR_DEVICE device,
+		_In_ const GR_QUEUE_SEMAPHORE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_QUEUE_SEMAPHORE* pSemaphore);
 
 	GR_RESULT grSignalQueueSemaphore(
-		GR_QUEUE queue,
-		GR_QUEUE_SEMAPHORE semaphore);
+		_In_ GR_QUEUE queue,
+		_In_ GR_QUEUE_SEMAPHORE semaphore);
 
 	GR_RESULT grWaitQueueSemaphore(
-		GR_QUEUE queue,
-		GR_QUEUE_SEMAPHORE semaphore);
+		_In_ GR_QUEUE queue,
+		_In_ GR_QUEUE_SEMAPHORE semaphore);
 
 	GR_RESULT grCreateEvent(
-		GR_DEVICE device,
-		const GR_EVENT_CREATE_INFO* pCreateInfo,
-		GR_EVENT* pEvent);
+		_In_ GR_DEVICE device,
+		_In_ const GR_EVENT_CREATE_INFO* pCreateInfo,
+		_Out_ GR_EVENT* pEvent);
 
 	GR_RESULT grGetEventStatus(
-		GR_EVENT Event);
+		_In_ GR_EVENT Event);
 
 	GR_RESULT grSetEvent(
-		GR_EVENT Event);
+		_In_ GR_EVENT Event);
 
 	GR_RESULT grResetEvent(
-		GR_EVENT Event);
+		_In_ GR_EVENT Event);
 
 	GR_RESULT grGetMultiGpuCompatibility(
-		GR_PHYSICAL_GPU gpu0,
-		GR_PHYSICAL_GPU gpu1,
-		GR_GPU_COMPATIBILITY_INFO* pInfo);
+		_In_ GR_PHYSICAL_GPU gpu0,
+		_In_ GR_PHYSICAL_GPU gpu1,
+		_Out_ GR_GPU_COMPATIBILITY_INFO* pInfo);
 
 	GR_RESULT grOpenSharedMemory(
-		GR_DEVICE device,
-		const GR_MEMORY_OPEN_INFO* pOpenInfo,
-		GR_GPU_MEMORY* pMem);
+		_In_ GR_DEVICE device,
+		_In_ const GR_MEMORY_OPEN_INFO* pOpenInfo,
+		_Out_ GR_GPU_MEMORY* pMem);
 
 	GR_RESULT grOpenSharedQueueSemaphore(
-		GR_DEVICE device,
-		const GR_QUEUE_SEMAPHORE_OPEN_INFO* pOpenInfo,
-		GR_QUEUE_SEMAPHORE* pSemaphore);
+		_In_ GR_DEVICE device,
+		_In_ const GR_QUEUE_SEMAPHORE_OPEN_INFO* pOpenInfo,
+		_Out_ GR_QUEUE_SEMAPHORE* pSemaphore);
 
 	GR_RESULT grOpenPeerMemory(
-		GR_DEVICE device,
-		const GR_PEER_MEMORY_OPEN_INFO* pOpenInfo,
-		GR_GPU_MEMORY* pMem);
+		_In_ GR_DEVICE device,
+		_In_ const GR_PEER_MEMORY_OPEN_INFO* pOpenInfo,
+		_Out_ GR_GPU_MEMORY* pMem);
 
 	GR_RESULT grOpenPeerImage(
-		GR_DEVICE device,
-		const GR_PEER_IMAGE_OPEN_INFO* pOpenInfo,
-		GR_IMAGE* pImage,
-		GR_GPU_MEMORY* pMem);
+		_In_ GR_DEVICE device,
+		_In_ const GR_PEER_IMAGE_OPEN_INFO* pOpenInfo,
+		_Out_ GR_IMAGE* pImage,
+		_Out_ GR_GPU_MEMORY* pMem);
 
 	GR_RESULT grCreateCommandBuffer(
-		GR_DEVICE device,
-		const GR_CMD_BUFFER_CREATE_INFO* pCreateInfo,
-		GR_CMD_BUFFER* pCmdBuffer);
+		_In_ GR_DEVICE device,
+		_In_ const GR_CMD_BUFFER_CREATE_INFO* pCreateInfo,
+		_Out_ GR_CMD_BUFFER* pCmdBuffer);
 
 	GR_RESULT grBeginCommandBuffer(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_FLAGS flags);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_FLAGS flags);
 
 	GR_RESULT grEndCommandBuffer(
-		GR_CMD_BUFFER cmdBuffer);
+		_In_ GR_CMD_BUFFER cmdBuffer);
 
 	GR_RESULT grResetCommandBuffer(
-		GR_CMD_BUFFER cmdBuffer);
+		_In_ GR_CMD_BUFFER cmdBuffer);
 
 	GR_VOID grCmdBindPipeline(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_ENUM pipelineBindPoint,
-		GR_PIPELINE pipeline);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_PIPELINE_BIND_POINT pipelineBindPoint,
+		_In_ GR_PIPELINE pipeline);
 
 	GR_VOID grCmdBindStateObject(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_ENUM stateBindPoint,
-		GR_STATE_OBJECT state);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_STATE_BIND_POINT stateBindPoint,
+		_In_ GR_STATE_OBJECT state);
 
 	GR_VOID grCmdBindDescriptorSet(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_ENUM pipelineBindPoint,
-		GR_UINT index,
-		GR_DESCRIPTOR_SET descriptorSet,
-		GR_UINT slotOffset);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_PIPELINE_BIND_POINT pipelineBindPoint,
+		_In_ GR_UINT index,
+		_In_ GR_DESCRIPTOR_SET descriptorSet,
+		_In_ GR_UINT slotOffset);
 
 	GR_VOID grCmdBindDynamicMemoryView(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_ENUM pipelineBindPoint,
-		const GR_MEMORY_VIEW_ATTACH_INFO* pMemView);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_PIPELINE_BIND_POINT pipelineBindPoint,
+		_In_opt_ const GR_MEMORY_VIEW_ATTACH_INFO* pMemView);
 
 	GR_VOID grCmdBindIndexData(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_GPU_MEMORY mem,
-		GR_GPU_SIZE offset,
-		GR_ENUM indexType);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_opt_ GR_GPU_MEMORY mem,
+		_In_ GR_GPU_SIZE offset,
+		_In_ GR_INDEX_TYPE indexType);
 
 	GR_VOID grCmdBindTargets(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_UINT colorTargetCount,
-		const GR_COLOR_TARGET_BIND_INFO* pColorTargets,
-		const GR_DEPTH_STENCIL_BIND_INFO* pDepthTarget);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_opt_ GR_UINT colorTargetCount,
+		_In_opt_ const GR_COLOR_TARGET_BIND_INFO* pColorTargets,
+		_In_opt_ const GR_DEPTH_STENCIL_BIND_INFO* pDepthTarget);
 
 	GR_VOID grCmdPrepareMemoryRegions(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_UINT transitionCount,
-		const GR_MEMORY_STATE_TRANSITION* pStateTransitions);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_UINT transitionCount,
+		_In_ const GR_MEMORY_STATE_TRANSITION* pStateTransitions);
 
 	GR_VOID grCmdPrepareImages(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_UINT transitionCount,
-		const GR_IMAGE_STATE_TRANSITION* pStateTransitions);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_UINT transitionCount,
+		_In_ const GR_IMAGE_STATE_TRANSITION* pStateTransitions);
 
 	GR_VOID grCmdDraw(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_UINT firstVertex,
-		GR_UINT vertexCount,
-		GR_UINT firstInstance,
-		GR_UINT instanceCount);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_UINT firstVertex,
+		_In_ GR_UINT vertexCount,
+		_In_ GR_UINT firstInstance,
+		_In_ GR_UINT instanceCount);
 
 	GR_VOID grCmdDrawIndexed(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_UINT firstIndex,
-		GR_UINT indexCount,
-		GR_INT vertexOffset,
-		GR_UINT firstInstance,
-		GR_UINT instanceCount);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_UINT firstIndex,
+		_In_ GR_UINT indexCount,
+		_In_ GR_INT vertexOffset,
+		_In_ GR_UINT firstInstance,
+		_In_ GR_UINT instanceCount);
 
 	GR_VOID grCmdDrawIndirect(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_GPU_MEMORY mem,
-		GR_GPU_SIZE offset);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_GPU_MEMORY mem,
+		_In_ GR_GPU_SIZE offset);
 
 	GR_VOID grCmdDrawIndexedIndirect(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_GPU_MEMORY mem,
-		GR_GPU_SIZE offset);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_GPU_MEMORY mem,
+		_In_ GR_GPU_SIZE offset);
 
 	GR_VOID grCmdDispatch(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_UINT x,
-		GR_UINT y,
-		GR_UINT z);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_UINT x,
+		_In_ GR_UINT y,
+		_In_ GR_UINT z);
 
 	GR_VOID grCmdDispatchIndirect(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_GPU_MEMORY mem,
-		GR_GPU_SIZE offset);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_GPU_MEMORY mem,
+		_In_ GR_GPU_SIZE offset);
 
 	GR_VOID grCmdCopyMemory(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_GPU_MEMORY srcMem,
-		GR_GPU_MEMORY destMem,
-		GR_UINT regionCount,
-		const GR_MEMORY_COPY* pRegions);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_GPU_MEMORY srcMem,
+		_In_ GR_GPU_MEMORY destMem,
+		_In_ GR_UINT regionCount,
+		_In_ const GR_MEMORY_COPY* pRegions);
 
 	GR_VOID grCmdCopyImage(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_IMAGE srcImage,
-		GR_IMAGE destImage,
-		GR_UINT regionCount,
-		const GR_IMAGE_COPY* pRegions);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_IMAGE srcImage,
+		_In_ GR_IMAGE destImage,
+		_In_ GR_UINT regionCount,
+		_In_ const GR_IMAGE_COPY* pRegions);
 
 	GR_VOID grCmdCopyMemoryToImage(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_GPU_MEMORY srcMem,
-		GR_IMAGE destImage,
-		GR_UINT regionCount,
-		const GR_MEMORY_IMAGE_COPY* pRegions);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_GPU_MEMORY srcMem,
+		_In_ GR_IMAGE destImage,
+		_In_ GR_UINT regionCount,
+		_In_ const GR_MEMORY_IMAGE_COPY* pRegions);
 
 	GR_VOID grCmdCopyImageToMemory(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_IMAGE srcImage,
-		GR_GPU_MEMORY destMem,
-		GR_UINT regionCount,
-		const GR_MEMORY_IMAGE_COPY* pRegions);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_IMAGE srcImage,
+		_In_ GR_GPU_MEMORY destMem,
+		_In_ GR_UINT regionCount,
+		_In_ const GR_MEMORY_IMAGE_COPY* pRegions);
 
 	GR_VOID grCmdResolveImage(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_IMAGE srcImage,
-		GR_IMAGE destImage,
-		GR_UINT regionCount,
-		const GR_IMAGE_RESOLVE* pRegions);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_IMAGE srcImage,
+		_In_ GR_IMAGE destImage,
+		_In_ GR_UINT regionCount,
+		_In_ const GR_IMAGE_RESOLVE* pRegions);
 
 	GR_VOID grCmdCloneImageData(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_IMAGE srcImage,
-		GR_ENUM srcImageState,
-		GR_IMAGE destImage,
-		GR_ENUM destImageState);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_IMAGE srcImage,
+		_In_ GR_IMAGE_STATE srcImageState,
+		_In_ GR_IMAGE destImage,
+		_In_ GR_IMAGE_STATE destImageState);
 
 	GR_VOID grCmdUpdateMemory(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_GPU_MEMORY destMem,
-		GR_GPU_SIZE destOffset,
-		GR_GPU_SIZE dataSize,
-		const GR_UINT32* pData);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_GPU_MEMORY destMem,
+		_In_ GR_GPU_SIZE destOffset,
+		_In_ GR_GPU_SIZE dataSize,
+		_In_ const GR_UINT32* pData);
 
 	GR_VOID grCmdFillMemory(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_GPU_MEMORY destMem,
-		GR_GPU_SIZE destOffset,
-		GR_GPU_SIZE fillSize,
-		GR_UINT32 data);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_GPU_MEMORY destMem,
+		_In_ GR_GPU_SIZE destOffset,
+		_In_ GR_GPU_SIZE fillSize,
+		_In_ GR_UINT32 data);
 
 	GR_VOID grCmdClearColorImage(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_IMAGE image,
-		const GR_FLOAT color[4],
-		GR_UINT rangeCount,
-		const GR_IMAGE_SUBRESOURCE_RANGE* pRanges);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_IMAGE image,
+		_In_ const GR_FLOAT color[4],
+		_In_ GR_UINT rangeCount,
+		_In_ const GR_IMAGE_SUBRESOURCE_RANGE* pRanges);
 
 	GR_VOID grCmdClearColorImageRaw(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_IMAGE image,
-		const GR_UINT32 color[4],
-		GR_UINT rangeCount,
-		const GR_IMAGE_SUBRESOURCE_RANGE* pRanges);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_IMAGE image,
+		_In_ const GR_UINT32 color[4],
+		_In_ GR_UINT rangeCount,
+		_In_ const GR_IMAGE_SUBRESOURCE_RANGE* pRanges);
 
 	GR_VOID grCmdClearDepthStencil(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_IMAGE image,
-		GR_FLOAT depth,
-		GR_UINT8 stencil,
-		GR_UINT rangeCount,
-		const GR_IMAGE_SUBRESOURCE_RANGE* pRanges);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_IMAGE image,
+		_In_ GR_FLOAT depth,
+		_In_ GR_UINT8 stencil,
+		_In_ GR_UINT rangeCount,
+		_In_ const GR_IMAGE_SUBRESOURCE_RANGE* pRanges);
 
 	GR_VOID grCmdSetEvent(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_EVENT Event);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_EVENT Event);
 
 	GR_VOID grCmdResetEvent(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_EVENT Event);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_EVENT Event);
 
 	GR_VOID grCmdMemoryAtomic(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_GPU_MEMORY destMem,
-		GR_GPU_SIZE destOffset,
-		GR_UINT64 srcData,
-		GR_ENUM atomicOp);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_GPU_MEMORY destMem,
+		_In_ GR_GPU_SIZE destOffset,
+		_In_ GR_UINT64 srcData,
+		_In_ GR_ENUM atomicOp);
 
 	GR_VOID grCmdBeginQuery(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_QUERY_POOL queryPool,
-		GR_UINT slot,
-		GR_FLAGS flags);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_QUERY_POOL queryPool,
+		_In_ GR_UINT slot,
+		_In_ GR_QUERY_CONTROL_FLAGS flags);
 
 	GR_VOID grCmdEndQuery(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_QUERY_POOL queryPool,
-		GR_UINT slot);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_QUERY_POOL queryPool,
+		_In_ GR_UINT slot);
 
 	GR_VOID grCmdResetQueryPool(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_QUERY_POOL queryPool,
-		GR_UINT startQuery,
-		GR_UINT queryCount);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_QUERY_POOL queryPool,
+		_In_ GR_UINT startQuery,
+		_In_ GR_UINT queryCount);
 
 	GR_VOID grCmdWriteTimestamp(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_ENUM timestampType,
-		GR_GPU_MEMORY destMem,
-		GR_GPU_SIZE destOffset);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_TIMESTAMP_TYPE timestampType,
+		_In_ GR_GPU_MEMORY destMem,
+		_In_ GR_GPU_SIZE destOffset);
 
 	GR_VOID grCmdInitAtomicCounters(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_ENUM pipelineBindPoint,
-		GR_UINT startCounter,
-		GR_UINT counterCount,
-		const GR_UINT32* pData);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_PIPELINE_BIND_POINT pipelineBindPoint,
+		_In_ GR_UINT startCounter,
+		_In_ GR_UINT counterCount,
+		_In_ const GR_UINT32* pData);
 
 	GR_VOID grCmdLoadAtomicCounters(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_ENUM pipelineBindPoint,
-		GR_UINT startCounter,
-		GR_UINT counterCount,
-		GR_GPU_MEMORY srcMem,
-		GR_GPU_SIZE srcOffset);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_PIPELINE_BIND_POINT pipelineBindPoint,
+		_In_ GR_UINT startCounter,
+		_In_ GR_UINT counterCount,
+		_In_ GR_GPU_MEMORY srcMem,
+		_In_ GR_GPU_SIZE srcOffset);
 
 	GR_VOID grCmdSaveAtomicCounters(
-		GR_CMD_BUFFER cmdBuffer,
-		GR_ENUM pipelineBindPoint,
-		GR_UINT startCounter,
-		GR_UINT counterCount,
-		GR_GPU_MEMORY destMem,
-		GR_GPU_SIZE destOffset);
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		_In_ GR_PIPELINE_BIND_POINT pipelineBindPoint,
+		_In_ GR_UINT startCounter,
+		_In_ GR_UINT counterCount,
+		_In_ GR_GPU_MEMORY destMem,
+		_In_ GR_GPU_SIZE destOffset);
+
 
 #ifdef __cplusplus
 }
