@@ -1,2 +1,2 @@
 # AMD Mantle API
-https://ibb.co/sKbmF3s
+[img]https://ibb.co/sKbmF3s[/img]
