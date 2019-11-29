@@ -103,7 +103,7 @@ extern "C" {
 
 	typedef struct _GR_QUEUE_CONTROL_FLOW_PROPERTIES {
 		GR_UINT maxNestingLimit;
-		GR_FLAGS controlFlowOperations;
+		GR_EXT_CONTROL_FLOW_FEATURE_FLAGS controlFlowOperations;
 	} GR_QUEUE_CONTROL_FLOW_PROPERTIES;
 
 	typedef struct _GR_GPU_TIMESTAMP_CALIBRATION {
@@ -131,7 +131,7 @@ extern "C" {
 
 	GR_VOID grCmdBindBorderColorPalette(
 		GR_CMD_BUFFER cmdBuffer,
-		GR_ENUM pipelineBindPoint,
+		GR_PIPELINE_BIND_POINT pipelineBindPoint,
 		GR_BORDER_COLOR_PALETTE palette);
 
 	GR_RESULT grCreateAdvancedMsaaState(
@@ -157,7 +157,7 @@ extern "C" {
 		GR_CMD_BUFFER cmdBuffer,
 		GR_QUERY_POOL queryPool,
 		GR_UINT slot,
-		GR_ENUM condition,
+		GR_EXT_OCCLUSION_CONDITION condition,
 		GR_BOOL waitResults,
 		GR_BOOL accumulateData);
 
@@ -178,7 +178,7 @@ extern "C" {
 		GR_GPU_SIZE srcOffset,
 		GR_UINT64 data,
 		GR_UINT64 mask,
-		GR_ENUM func);
+		GR_COMPARE_FUNC func);
 
 	GR_VOID grCmdElse(
 		GR_CMD_BUFFER cmdBuffer);
@@ -192,7 +192,7 @@ extern "C" {
 		GR_GPU_SIZE srcOffset,
 		GR_UINT64 data,
 		GR_UINT64 mask,
-		GR_ENUM func);
+		GR_COMPARE_FUNC func);
 
 	GR_VOID grCmdEndWhile(
 		GR_CMD_BUFFER cmdBuffer);
