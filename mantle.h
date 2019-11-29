@@ -599,7 +599,7 @@ extern "C" {
 	typedef GR_VOID* (GR_STDCALL *GR_ALLOC_FUNCTION)(
 		GR_SIZE size,
 		GR_SIZE alignment,
-		GR_ENUM allocType);
+		GR_SYSTEM_ALLOC_TYPE allocType);
 
 	typedef GR_VOID(GR_STDCALL *GR_FREE_FUNCTION)(
 		GR_VOID* pMem);
@@ -622,27 +622,27 @@ extern "C" {
 	} GR_APPLICATION_INFO;
 
 	typedef struct _GR_CHANNEL_MAPPING {
-		GR_ENUM r;
-		GR_ENUM g;
-		GR_ENUM b;
-		GR_ENUM a;
+		GR_CHANNEL_SWIZZLE r;
+		GR_CHANNEL_SWIZZLE g;
+		GR_CHANNEL_SWIZZLE b;
+		GR_CHANNEL_SWIZZLE a;
 	} GR_CHANNEL_MAPPING;
 
 	typedef struct _GR_CMD_BUFFER_CREATE_INFO {
-		GR_ENUM queueType;
-		GR_FLAGS flags;
+		GR_QUEUE_TYPE queueType;
+		GR_FLAGS flags; // Reserved
 	} GR_CMD_BUFFER_CREATE_INFO;
-
+	
 	typedef struct _GR_COLOR_TARGET_BLEND_STATE {
 		GR_BOOL blendEnable;
-		GR_ENUM srcBlendColor;
-		GR_ENUM destBlendColor;
-		GR_ENUM blendFuncColor;
-		GR_ENUM srcBlendAlpha;
-		GR_ENUM destBlendAlpha;
-		GR_ENUM blendFuncAlpha;
+		GR_BLEND srcBlendColor;
+		GR_BLEND destBlendColor;
+		GR_BLEND_FUNC blendFuncColor;
+		GR_BLEND srcBlendAlpha;
+		GR_BLEND destBlendAlpha;
+		GR_BLEND_FUNC blendFuncAlpha;
 	} GR_COLOR_TARGET_BLEND_STATE;
-
+	
 	typedef struct _GR_COLOR_BLEND_STATE_CREATE_INFO {
 		GR_COLOR_TARGET_BLEND_STATE target[GR_MAX_COLOR_TARGETS];
 		GR_FLOAT blendConst[4];
@@ -650,7 +650,7 @@ extern "C" {
 
 	typedef struct _GR_COLOR_TARGET_BIND_INFO {
 		GR_COLOR_TARGET_VIEW view;
-		GR_ENUM colorTargetState;
+		GR_IMAGE_STATE colorTargetState;
 	} GR_COLOR_TARGET_BIND_INFO;
 
 	typedef struct _GR_FORMAT {
@@ -667,7 +667,7 @@ extern "C" {
 	} GR_COLOR_TARGET_VIEW_CREATE_INFO;
 
 	typedef struct _GR_DESCRIPTOR_SLOT_INFO {
-		GR_ENUM slotObjectType;
+		GR_DESCRIPTOR_SET_SLOT_TYPE slotObjectType;
 		union {
 			GR_UINT shaderEntityIndex;
 			const struct _GR_DESCRIPTOR_SET_MAPPING* pNextLevelSet;
@@ -678,18 +678,18 @@ extern "C" {
 		GR_UINT descriptorCount;
 		const GR_DESCRIPTOR_SLOT_INFO* pDescriptorInfo;
 	} GR_DESCRIPTOR_SET_MAPPING;
-
+	
 	typedef struct _GR_LINK_CONST_BUFFER {
 		GR_UINT bufferId;
 		GR_SIZE bufferSize;
 		const GR_VOID* pBufferData;
 	} GR_LINK_CONST_BUFFER;
-
+	
 	typedef struct _GR_DYNAMIC_MEMORY_VIEW_SLOT_INFO {
-		GR_ENUM slotObjectType;
+		GR_DESCRIPTOR_SET_SLOT_TYPE slotObjectType;
 		GR_UINT shaderEntityIndex;
 	} GR_DYNAMIC_MEMORY_VIEW_SLOT_INFO;
-
+	
 	typedef struct _GR_PIPELINE_SHADER {
 		GR_SHADER shader;
 		GR_DESCRIPTOR_SET_MAPPING descriptorSetMapping[GR_MAX_DESCRIPTOR_SETS];
@@ -700,27 +700,27 @@ extern "C" {
 
 	typedef struct _GR_COMPUTE_PIPELINE_CREATE_INFO {
 		GR_PIPELINE_SHADER cs;
-		GR_FLAGS flags;
+		GR_PIPELINE_CREATE_FLAGS flags;
 	} GR_COMPUTE_PIPELINE_CREATE_INFO;
 
 	typedef struct _GR_DEPTH_STENCIL_BIND_INFO {
 		GR_DEPTH_STENCIL_VIEW view;
-		GR_ENUM depthState;
-		GR_ENUM stencilState;
+		GR_IMAGE_STATE depthState;
+		GR_IMAGE_STATE stencilState;
 	} GR_DEPTH_STENCIL_BIND_INFO;
 
 	typedef struct _GR_DEPTH_STENCIL_OP {
-		GR_ENUM stencilFailOp;
-		GR_ENUM stencilPassOp;
-		GR_ENUM stencilDepthFailOp;
-		GR_ENUM stencilFunc;
+		GR_STENCIL_OP stencilFailOp;
+		GR_STENCIL_OP stencilPassOp;
+		GR_STENCIL_OP stencilDepthFailOp;
+		GR_COMPARE_FUNC stencilFunc;
 		GR_UINT8 stencilRef;
 	} GR_DEPTH_STENCIL_OP;
 
 	typedef struct _GR_DEPTH_STENCIL_STATE_CREATE_INFO {
 		GR_BOOL depthEnable;
 		GR_BOOL depthWriteEnable;
-		GR_ENUM depthFunc;
+		GR_COMPARE_FUNC depthFunc;
 		GR_BOOL depthBoundsEnable;
 		GR_FLOAT minDepth;
 		GR_FLOAT maxDepth;
@@ -736,9 +736,9 @@ extern "C" {
 		GR_UINT mipLevel;
 		GR_UINT baseArraySlice;
 		GR_UINT arraySize;
-		GR_FLAGS flags;
+		GR_DEPTH_STENCIL_VIEW_CREATE_FLAGS flags;
 	} GR_DEPTH_STENCIL_VIEW_CREATE_INFO;
-
+	
 	typedef struct _GR_DESCRIPTOR_SET_ATTACH_INFO {
 		GR_DESCRIPTOR_SET descriptorSet;
 		GR_UINT slotOffset;
@@ -749,7 +749,7 @@ extern "C" {
 	} GR_DESCRIPTOR_SET_CREATE_INFO;
 
 	typedef struct _GR_DEVICE_QUEUE_CREATE_INFO {
-		GR_ENUM queueType;
+		GR_QUEUE_TYPE queueType;
 		GR_UINT queueCount;
 	} GR_DEVICE_QUEUE_CREATE_INFO;
 
@@ -758,8 +758,8 @@ extern "C" {
 		const GR_DEVICE_QUEUE_CREATE_INFO* pRequestedQueues;
 		GR_UINT extensionCount;
 		const GR_CHAR*const* ppEnabledExtensionNames;
-		GR_ENUM maxValidationLevel;
-		GR_FLAGS flags;
+		GR_VALIDATION_LEVEL maxValidationLevel;
+		GR_DEVICE_CREATE_FLAGS flags;
 	} GR_DEVICE_CREATE_INFO;
 
 	typedef struct _GR_DISPATCH_INDIRECT_ARG {
@@ -784,7 +784,7 @@ extern "C" {
 	} GR_DRAW_INDIRECT_ARG;
 
 	typedef struct _GR_EVENT_CREATE_INFO {
-		GR_FLAGS flags;
+		GR_FLAGS flags; // Reserved
 	} GR_EVENT_CREATE_INFO;
 
 	typedef struct _GR_EXTENT2D {
@@ -799,16 +799,16 @@ extern "C" {
 	} GR_EXTENT3D;
 
 	typedef struct _GR_FENCE_CREATE_INFO {
-		GR_FLAGS flags;
+		GR_FLAGS flags; // Reserved
 	} GR_FENCE_CREATE_INFO;
 
 	typedef struct _GR_FORMAT_PROPERTIES {
-		GR_FLAGS linearTilingFeatures;
-		GR_FLAGS optimalTilingFeatures;
+		GR_FORMAT_FEATURE_FLAGS linearTilingFeatures;
+		GR_FORMAT_FEATURE_FLAGS optimalTilingFeatures;
 	} GR_FORMAT_PROPERTIES;
 
 	typedef struct _GR_GPU_COMPATIBILITY_INFO {
-		GR_FLAGS compatibilityFlags;
+		GR_GPU_COMPATIBILITY_FLAGS compatibilityFlags;
 	} GR_GPU_COMPATIBILITY_INFO;
 
 	typedef struct _GR_PIPELINE_CB_TARGET_STATE {
@@ -818,7 +818,7 @@ extern "C" {
 	} GR_PIPELINE_CB_TARGET_STATE;
 
 	typedef struct _GR_PIPELINE_IA_STATE {
-		GR_ENUM topology;
+		GR_PRIMITIVE_TOPOLOGY topology;
 		GR_BOOL disableVertexReuse;
 	} GR_PIPELINE_IA_STATE;
 
@@ -834,7 +834,7 @@ extern "C" {
 	typedef struct _GR_PIPELINE_CB_STATE {
 		GR_BOOL alphaToCoverageEnable;
 		GR_BOOL dualSourceBlendEnable;
-		GR_ENUM logicOp;
+		GR_LOGIC_OP logicOp;
 		GR_PIPELINE_CB_TARGET_STATE target[GR_MAX_COLOR_TARGETS];
 	} GR_PIPELINE_CB_STATE;
 
@@ -853,11 +853,11 @@ extern "C" {
 		GR_PIPELINE_RS_STATE rsState;
 		GR_PIPELINE_CB_STATE cbState;
 		GR_PIPELINE_DB_STATE dbState;
-		GR_FLAGS flags;
+		GR_PIPELINE_CREATE_FLAGS flags;
 	} GR_GRAPHICS_PIPELINE_CREATE_INFO;
 
 	typedef struct _GR_IMAGE_SUBRESOURCE {
-		GR_ENUM aspect;
+		GR_IMAGE_ASPECT aspect;
 		GR_UINT mipLevel;
 		GR_UINT arraySlice;
 	} GR_IMAGE_SUBRESOURCE;
@@ -882,15 +882,15 @@ extern "C" {
 	} GR_IMAGE_COPY;
 
 	typedef struct _GR_IMAGE_CREATE_INFO {
-		GR_ENUM imageType;
+		GR_INDEX_TYPE imageType;
 		GR_FORMAT format;
 		GR_EXTENT3D extent;
 		GR_UINT mipLevels;
 		GR_UINT arraySize;
 		GR_UINT samples;
-		GR_ENUM tiling;
-		GR_FLAGS usage;
-		GR_FLAGS flags;
+		GR_IMAGE_TILING tiling;
+		GR_IMAGE_USAGE_FLAGS usage;
+		GR_IMAGE_CREATE_FLAGS flags;
 	} GR_IMAGE_CREATE_INFO;
 
 	typedef struct _GR_IMAGE_RESOLVE {
@@ -902,7 +902,7 @@ extern "C" {
 	} GR_IMAGE_RESOLVE;
 
 	typedef struct _GR_IMAGE_SUBRESOURCE_RANGE {
-		GR_ENUM aspect;
+		GR_IMAGE_ASPECT aspect;
 		GR_UINT baseMipLevel;
 		GR_UINT mipLevels;
 		GR_UINT baseArraySlice;
@@ -911,19 +911,19 @@ extern "C" {
 
 	typedef struct _GR_IMAGE_STATE_TRANSITION {
 		GR_IMAGE image;
-		GR_ENUM oldState;
-		GR_ENUM newState;
+		GR_IMAGE_STATE oldState;
+		GR_IMAGE_STATE newState;
 		GR_IMAGE_SUBRESOURCE_RANGE subresourceRange;
 	} GR_IMAGE_STATE_TRANSITION;
 
 	typedef struct _GR_IMAGE_VIEW_ATTACH_INFO {
 		GR_IMAGE_VIEW view;
-		GR_ENUM state;
+		GR_IMAGE_STATE state;
 	} GR_IMAGE_VIEW_ATTACH_INFO;
 
 	typedef struct _GR_IMAGE_VIEW_CREATE_INFO {
 		GR_IMAGE image;
-		GR_ENUM viewType;
+		GR_IMAGE_VIEW_TYPE viewType;
 		GR_FORMAT format;
 		GR_CHANNEL_MAPPING channels;
 		GR_IMAGE_SUBRESOURCE_RANGE subresourceRange;
@@ -933,10 +933,10 @@ extern "C" {
 	typedef struct _GR_MEMORY_ALLOC_INFO {
 		GR_GPU_SIZE size;
 		GR_GPU_SIZE alignment;
-		GR_FLAGS flags;
+		GR_MEMORY_ALLOC_FLAGS flags;
 		GR_UINT heapCount;
 		GR_UINT heaps[GR_MAX_MEMORY_HEAPS];
-		GR_ENUM memPriority;
+		GR_MEMORY_PRIORITY memPriority;
 	} GR_MEMORY_ALLOC_INFO;
 
 	typedef struct _GR_MEMORY_COPY {
@@ -946,10 +946,10 @@ extern "C" {
 	} GR_MEMORY_COPY;
 
 	typedef struct _GR_MEMORY_HEAP_PROPERTIES {
-		GR_ENUM heapMemoryType;
+		GR_HEAP_MEMORY_TYPE heapMemoryType;
 		GR_GPU_SIZE heapSize;
 		GR_GPU_SIZE pageSize;
-		GR_FLAGS flags;
+		GR_MEMORY_HEAP_FLAGS flags;
 		GR_FLOAT gpuReadPerfRating;
 		GR_FLOAT gpuWritePerfRating;
 		GR_FLOAT cpuReadPerfRating;
@@ -969,7 +969,7 @@ extern "C" {
 
 	typedef struct _GR_MEMORY_REF {
 		GR_GPU_MEMORY mem;
-		GR_FLAGS flags;
+		GR_MEMORY_REF_FLAGS flags;
 	} GR_MEMORY_REF;
 
 	typedef struct _GR_MEMORY_REQUIREMENTS {
@@ -981,8 +981,8 @@ extern "C" {
 
 	typedef struct _GR_MEMORY_STATE_TRANSITION {
 		GR_GPU_MEMORY mem;
-		GR_ENUM oldState;
-		GR_ENUM newState;
+		GR_MEMORY_STATE oldState;
+		GR_MEMORY_STATE newState;
 		GR_GPU_SIZE offset;
 		GR_GPU_SIZE regionSize;
 	} GR_MEMORY_STATE_TRANSITION;
@@ -993,7 +993,7 @@ extern "C" {
 		GR_GPU_SIZE range;
 		GR_GPU_SIZE stride;
 		GR_FORMAT format;
-		GR_ENUM state;
+		GR_MEMORY_STATE state;
 	} GR_MEMORY_VIEW_ATTACH_INFO;
 
 	typedef struct _GR_MSAA_STATE_CREATE_INFO {
@@ -1026,11 +1026,11 @@ extern "C" {
 		GR_UINT reserved2;
 		GR_GPU_SIZE maxMemoryAlignment;
 		GR_UINT32 sparseImageSupportLevel;
-		GR_FLAGS flags;
+		GR_FLAGS flags; // Reserved
 	} GR_PHYSICAL_GPU_IMAGE_PROPERTIES;
 
 	typedef struct _GR_PHYSICAL_GPU_MEMORY_PROPERTIES {
-		GR_FLAGS flags;
+		GR_MEMORY_PROPERTY_FLAGS flags;
 		GR_GPU_SIZE virtualMemPageSize;
 		GR_GPU_SIZE maxVirtualMemSize;
 		GR_GPU_SIZE maxPhysicalMemSize;
@@ -1049,7 +1049,7 @@ extern "C" {
 		GR_UINT32 driverVersion;
 		GR_UINT32 vendorId;
 		GR_UINT32 deviceId;
-		GR_ENUM gpuType;
+		GR_PHYSICAL_GPU_TYPE gpuType;
 		GR_CHAR gpuName[GR_MAX_PHYSICAL_GPU_NAME];
 		GR_UINT maxMemRefsPerSubmission;
 		GR_GPU_SIZE reserved;
@@ -1061,7 +1061,7 @@ extern "C" {
 	} GR_PHYSICAL_GPU_PROPERTIES;
 
 	typedef struct _GR_PHYSICAL_GPU_QUEUE_PROPERTIES {
-		GR_ENUM queueType;
+		GR_QUEUE_TYPE queueType;
 		GR_UINT queueCount;
 		GR_UINT maxAtomicCounters;
 		GR_BOOL supportsTimestamps;
@@ -1082,13 +1082,13 @@ extern "C" {
 	} GR_PIPELINE_STATISTICS_DATA;
 
 	typedef struct _GR_QUERY_POOL_CREATE_INFO {
-		GR_ENUM queryType;
+		GR_QUERY_TYPE queryType;
 		GR_UINT slots;
 	} GR_QUERY_POOL_CREATE_INFO;
 
 	typedef struct _GR_QUEUE_SEMAPHORE_CREATE_INFO {
 		GR_UINT initialCount;
-		GR_FLAGS flags;
+		GR_SEMAPHORE_CREATE_FLAGS flags;
 	} GR_QUEUE_SEMAPHORE_CREATE_INFO;
 
 	typedef struct _GR_QUEUE_SEMAPHORE_OPEN_INFO {
@@ -1096,9 +1096,9 @@ extern "C" {
 	} GR_QUEUE_SEMAPHORE_OPEN_INFO;
 
 	typedef struct _GR_RASTER_STATE_CREATE_INFO {
-		GR_ENUM fillMode;
-		GR_ENUM cullMode;
-		GR_ENUM frontFace;
+		GR_FILL_MODE fillMode;
+		GR_CULL_MODE cullMode;
+		GR_FACE_ORIENTATION frontFace;
 		GR_INT depthBias;
 		GR_FLOAT depthBiasClamp;
 		GR_FLOAT slopeScaledDepthBias;
@@ -1110,22 +1110,22 @@ extern "C" {
 	} GR_RECT;
 
 	typedef struct _GR_SAMPLER_CREATE_INFO {
-		GR_ENUM filter;
-		GR_ENUM addressU;
-		GR_ENUM addressV;
-		GR_ENUM addressW;
+		GR_TEX_FILTER filter;
+		GR_TEX_ADDRESS addressU;
+		GR_TEX_ADDRESS addressV;
+		GR_TEX_ADDRESS addressW;
 		GR_FLOAT mipLodBias;
 		GR_UINT maxAnisotropy;
-		GR_ENUM compareFunc;
+		GR_COMPARE_FUNC compareFunc;
 		GR_FLOAT minLod;
 		GR_FLOAT maxLod;
-		GR_ENUM borderColor;
+		GR_BORDER_COLOR_TYPE borderColor;
 	} GR_SAMPLER_CREATE_INFO;
 
 	typedef struct _GR_SHADER_CREATE_INFO {
 		GR_SIZE codeSize;
 		const GR_VOID* pCode;
-		GR_FLAGS flags;
+		GR_SHADER_CREATE_FLAGS flags;
 	} GR_SHADER_CREATE_INFO;
 
 	typedef struct _GR_SUBRESOURCE_LAYOUT {
@@ -1163,6 +1163,10 @@ extern "C" {
 	// ======================================================
 	// ===================== FUNCTIONS ======================
 	// ======================================================
+	
+	// ======================================================
+		// INITIALIZATION AND DEVICE FUNCTIONS
+	// ======================================================
 	GR_RESULT grInitAndEnumerateGpus(
 		_In_ const GR_APPLICATION_INFO* pAppInfo,
 		_In_opt_ const GR_ALLOC_CALLBACKS* pAllocCb,
@@ -1182,11 +1186,17 @@ extern "C" {
 
 	GR_RESULT grDestroyDevice(
 		_In_ GR_DEVICE device);
-
+	
+	// ======================================================
+		// EXTENSION DISCOVERY FUNCTIONS
+	// ======================================================
 	GR_RESULT grGetExtensionSupport(
 		_In_ GR_PHYSICAL_GPU gpu,
 		_In_ const GR_CHAR* pExtName);
 
+	// ======================================================
+		// QUEUE FUNCTIONS
+	// ======================================================
 	GR_RESULT grGetDeviceQueue(
 		_In_ GR_DEVICE device,
 		_In_ GR_QUEUE_TYPE queueType,
@@ -1212,6 +1222,9 @@ extern "C" {
 		_In_opt_ GR_UINT memRefCount,
 		_In_opt_ const GR_MEMORY_REF* pMemRefs);
 
+	// ======================================================
+		// MEMORY MANAGEMENT FUNCTIONS
+	// ======================================================
 	GR_RESULT grGetMemoryHeapCount(
 		_In_ GR_DEVICE device,
 		_Out_ GR_UINT* pCount);
@@ -1237,7 +1250,7 @@ extern "C" {
 
 	GR_RESULT grMapMemory(
 		_In_ GR_GPU_MEMORY mem,
-		_In_ GR_FLAGS flags, // reserved
+		_In_ GR_FLAGS flags, // Reserved
 		_Out_ GR_VOID** ppData);
 
 	GR_RESULT grUnmapMemory(
@@ -1258,12 +1271,15 @@ extern "C" {
 		_In_ GR_SIZE memSize, // GR_MEMORY_HEAP_FLAG_HOLDS_PINNED
 		_Out_ GR_GPU_MEMORY* pMem);
 
+	// ======================================================
+		// GENERIC API OBJECT MANAGEMENT FUNCTIONS
+	// ======================================================
 	GR_RESULT grDestroyObject(
 		_In_ GR_OBJECT object);
 
 	GR_RESULT grGetObjectInfo(
 		_In_ GR_BASE_OBJECT object,
-		_In_ GR_ENUM infoType,
+		_In_ GR_INFO_TYPE infoType,
 		_Inout_opt_ GR_SIZE* pDataSize,
 		_Out_opt_ GR_VOID* pData);
 
@@ -1272,6 +1288,9 @@ extern "C" {
 		_In_opt_ GR_GPU_MEMORY mem,
 		_In_ GR_GPU_SIZE offset);
 
+	// ======================================================
+		// IMAGE AND SAMPLER FUNCTIONS
+	// ======================================================
 	GR_RESULT grGetFormatInfo(
 		_In_ GR_DEVICE device,
 		_In_ GR_FORMAT format,
@@ -1296,6 +1315,9 @@ extern "C" {
 		_In_ const GR_SAMPLER_CREATE_INFO* pCreateInfo,
 		_Out_ GR_SAMPLER* pSampler);
 
+	// ======================================================
+		// IMAGE VIEW FUNCTIONS
+	// ======================================================
 	GR_RESULT grCreateImageView(
 		_In_ GR_DEVICE device,
 		_In_ const GR_IMAGE_VIEW_CREATE_INFO* pCreateInfo,
@@ -1311,6 +1333,9 @@ extern "C" {
 		_In_ const GR_DEPTH_STENCIL_VIEW_CREATE_INFO* pCreateInfo,
 		_Out_ GR_DEPTH_STENCIL_VIEW* pView);
 
+	// ======================================================
+		// SHADER AND PIPELINE FUNCTIONS
+	// ======================================================
 	GR_RESULT grCreateShader(
 		_In_ GR_DEVICE device,
 		_In_ const GR_SHADER_CREATE_INFO* pCreateInfo,
@@ -1337,6 +1362,9 @@ extern "C" {
 		_In_ const GR_VOID* pData, // generated by grStorePipeline()
 		_Out_ GR_PIPELINE* pPipeline);
 
+	// ======================================================
+		// DESCRIPTOR SET FUNCTIONS
+	// ======================================================
 	GR_RESULT grCreateDescriptorSet(
 		_In_ GR_DEVICE device,
 		_In_ const GR_DESCRIPTOR_SET_CREATE_INFO* pCreateInfo,
@@ -1377,6 +1405,9 @@ extern "C" {
 		_In_ GR_UINT startSlot,
 		_In_ GR_UINT slotCount);
 
+	// ======================================================
+		// STATE OBJECT FUNCTIONS
+	// ======================================================
 	GR_RESULT grCreateViewportState(
 		_In_ GR_DEVICE device,
 		_In_ const GR_VIEWPORT_STATE_CREATE_INFO* pCreateInfo,
@@ -1402,6 +1433,9 @@ extern "C" {
 		_In_ const GR_MSAA_STATE_CREATE_INFO* pCreateInfo,
 		_Out_ GR_MSAA_STATE_OBJECT* pState);
 
+	// ======================================================
+		// QUERY AND SYNCHRONIZATION FUNCTION
+	// ======================================================
 	GR_RESULT grCreateQueryPool(
 		_In_ GR_DEVICE device,
 		_In_ const GR_QUERY_POOL_CREATE_INFO* pCreateInfo,
@@ -1456,6 +1490,9 @@ extern "C" {
 	GR_RESULT grResetEvent(
 		_In_ GR_EVENT Event);
 
+	// ======================================================
+		// MULTI-DEVICE MANAGEMENT FUNCTIONS
+	// ======================================================
 	GR_RESULT grGetMultiGpuCompatibility(
 		_In_ GR_PHYSICAL_GPU gpu0,
 		_In_ GR_PHYSICAL_GPU gpu1,
@@ -1482,6 +1519,9 @@ extern "C" {
 		_Out_ GR_IMAGE* pImage,
 		_Out_ GR_GPU_MEMORY* pMem);
 
+	// ======================================================
+		// COMMAND BUFFER MANAGEMENT FUNCTIONS
+	// ======================================================
 	GR_RESULT grCreateCommandBuffer(
 		_In_ GR_DEVICE device,
 		_In_ const GR_CMD_BUFFER_CREATE_INFO* pCreateInfo,
@@ -1497,6 +1537,9 @@ extern "C" {
 	GR_RESULT grResetCommandBuffer(
 		_In_ GR_CMD_BUFFER cmdBuffer);
 
+	// ======================================================
+		// COMMAND BUFFER BUILDING FUNCTIONS
+	// ======================================================
 	GR_VOID grCmdBindPipeline(
 		_In_ GR_CMD_BUFFER cmdBuffer,
 		_In_ GR_PIPELINE_BIND_POINT pipelineBindPoint,
@@ -1668,7 +1711,7 @@ extern "C" {
 		_In_ GR_GPU_MEMORY destMem,
 		_In_ GR_GPU_SIZE destOffset,
 		_In_ GR_UINT64 srcData,
-		_In_ GR_ENUM atomicOp);
+		_In_ GR_ATOMIC_OP atomicOp);
 
 	GR_VOID grCmdBeginQuery(
 		_In_ GR_CMD_BUFFER cmdBuffer,
