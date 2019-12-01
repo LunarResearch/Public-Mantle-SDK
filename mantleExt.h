@@ -9,6 +9,12 @@ extern "C" {
 #endif
 
 
+	GR_HANDLE(GR_DISPLAY);
+
+
+#define GR_MAX_PRIVATE_DISPLAYS 16
+
+
 	// ======================================================
 	// ==================== ENUMERATIONS ====================
 	// ======================================================
@@ -114,6 +120,32 @@ extern "C" {
 		};
 	} GR_GPU_TIMESTAMP_CALIBRATION;
 
+	typedef struct _GR_PERF_EXPERIMENT_CREATE_INFO {
+
+	} GR_PERF_EXPERIMENT_CREATE_INFO;
+
+	typedef struct _GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO {
+		// display
+	} GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO;
+
+	typedef struct _GR_VIRTUAL_DISPLAY_CREATE_INFO {
+
+	} GR_VIRTUAL_DISPLAY_CREATE_INFO;
+
+	typedef struct _GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE {
+		// display;
+		// externalImage;
+	} GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE;
+
+	typedef struct _GR_PRIVATE_DISPLAY_PRESENT {
+		// srcImage;
+		// presentDoneFence;
+	} GR_PRIVATE_DISPLAY_PRESENT;
+
+	typedef struct _GR_PRIVATE_DISPALY_SCANLINE {
+
+	} GR_PRIVATE_DISPALY_SCANLINE;
+
 
 	// ==================== FUNCTIONS ====================
 	GR_UINT32 grGetExtensionLibraryVersion();
@@ -206,32 +238,142 @@ extern "C" {
 		GR_GPU_TIMESTAMP_CALIBRATION* pCalibrationData);
 
 
-	/* From new API version 10.1.9.109
+	// From new API version 10.1.9.xxx
+	// Mantle Programming Guide (Revision 1.0; March 6, 2015) is maximum for API version 10.1.9.45
 
-	grAddEmulatedPrivateDisplay
-	grAddPerfExperimentCounter
-	grAddPerfExperimentTrace
-	grBlankPrivateDisplay
-	grCmdBeginPerfExperiment
-	grCmdBindUserData
-	grCmdCopyRegisterToMemory
-	grCmdDispatchOffset
-	grCmdDispatchOffsetIndirect
-	grCmdEndPerfExperiment
-	grCmdInsertTraceMarker
-	grCmdResetMemoryPredication
-	grCmdSetMemoryPredication
-	grCmdWaitMemoryValue
-	grCmdWaitRegisterValue
-	grCreatePerfExperiment
-	grCreatePrivateDisplayImage
-	grDisablePrivateDisplay
-	grEnablePrivateDisplay
-	grFinalizePerfExperiment
-	grGetPrivateDisplayScanLine
-	grGetPrivateDisplays
-	grOpenExternalSharedPrivateDisplayImage
-	grPrivateDisplayPresent
+	GR_RESULT grAddEmulatedPrivateDisplay(
+		GR_DEVICE device,
+		__int64 a2,
+		__int64 a3);
+
+	GR_RESULT grAddPerfExperimentCounter(
+		GR_PERF_EXPERIMENT perfExperiment,
+		__int64 a2);
+
+	GR_RESULT grAddPerfExperimentTrace(
+		GR_PERF_EXPERIMENT perfExperiment,
+		__int64 a2);
+
+	GR_RESULT grBlankPrivateDisplay(
+		GR_DISPLAY display);
+
+	GR_RESULT grCmdBeginPerfExperiment(
+		GR_CMD_BUFFER cmdBuffer,
+		__int64 a2);
+
+	GR_RESULT grCmdBindUserData(
+		GR_CMD_BUFFER cmdBuffer,
+		unsigned int a2,
+		__int64 a3,
+		GR_SIZE* pDataSize,
+		GR_VOID* pData);
+
+	GR_RESULT grCmdCopyRegisterToMemory(
+		GR_CMD_BUFFER cmdBuffer,
+		unsigned int a2,
+		__int64 a3,
+		__int64 a4);
+
+	GR_RESULT grCmdDispatchOffset(
+		GR_CMD_BUFFER cmdBuffer,
+		unsigned int a2,
+		unsigned int a3,
+		unsigned int a4,
+		int a5,
+		int a6,
+		int a7);
+
+	GR_RESULT grCmdDispatchOffsetIndirect(
+		GR_CMD_BUFFER cmdBuffer,
+		__int64 a2,
+		__int64 a3);
+
+	GR_RESULT grCmdEndPerfExperiment(
+		GR_CMD_BUFFER cmdBuffer,
+		__int64 a2);
+
+	GR_RESULT grCmdInsertTraceMarker(
+		GR_CMD_BUFFER cmdBuffer,
+		unsigned int a2,
+		unsigned int a3);
+
+	GR_RESULT grCmdWaitMemoryValue(
+		GR_CMD_BUFFER cmdBuffer,
+		__int64 a2,
+		__int64 a3,
+		unsigned int a4,
+		int a5,
+		int a6);
+
+	GR_RESULT grCmdWaitRegisterValue(
+		GR_CMD_BUFFER cmdBuffer,
+		unsigned int a2,
+		unsigned int a3,
+		unsigned int a4,
+		int a5);
+
+	GR_RESULT grCreateFmaskImageView(
+		GR_DEVICE device,
+		const GR_FMASK_IMAGE_VIEW_CREATE_INFO* pCreateInfo,
+		GR_IMAGE_VIEW* pImageView);
+
+	GR_RESULT grCreatePerfExperiment(
+		GR_DEVICE device,
+		const GR_PERF_EXPERIMENT_CREATE_INFO* pCreateInfo,
+		GR_PERF_EXPERIMENT* pPerfExperiment);
+
+	GR_RESULT grCreatePrivateDisplayImage(
+		GR_DEVICE device,
+		const GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO* pCreateInfo,
+		GR_IMAGE* pImage,
+		GR_GPU_MEMORY* pMem);
+
+	GR_RESULT grCreateVirtualDisplay(
+		GR_DEVICE device,
+		const GR_VIRTUAL_DISPLAY_CREATE_INFO* pCreateInfo,
+		GR_DISPLAY* display);
+
+	GR_RESULT grDestroyVirtualDisplay(
+		GR_DEVICE device,
+		GR_DISPLAY display);
+
+	GR_RESULT grDisablePrivateDisplay(
+		GR_DISPLAY display);
+
+	GR_RESULT grEnablePrivateDisplay(
+		GR_DISPLAY display,
+		__int64 pEnableInfo);
+
+	GR_RESULT grEnablePrivateDisplayAudio(
+		GR_DISPLAY display,
+		unsigned int a2);
+
+	GR_RESULT grFinalizePerfExperiment(
+		GR_PERF_EXPERIMENT perfExperiment);
+
+	GR_RESULT grGetPrivateDisplayScanLine(
+		GR_DISPLAY display,
+		const GR_PRIVATE_DISPALY_SCANLINE* pScanLine);
+
+	GR_RESULT grGetPrivateDisplays(
+		GR_DEVICE device,
+		GR_UINT* pDisplayCount,
+		GR_DISPLAY displays[GR_MAX_PRIVATE_DISPLAYS]);
+
+	GR_RESULT grGetVirtualDisplayProperties(
+		GR_DEVICE device,
+		unsigned int a2,
+		__int64 a3);
+
+	GR_RESULT grOpenExternalSharedPrivateDisplayImage(
+		GR_DEVICE device,
+		const GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE* pOpenInfo);
+
+	GR_RESULT grPrivateDisplayPresent(
+		GR_DEVICE device,
+		const GR_PRIVATE_DISPLAY_PRESENT* pPresentInfo);
+
+	/*
 	grQueueDelayAfterVsync
 	grQueueMigrateObjects
 	grQueueSetExecutionPriority
@@ -247,8 +389,7 @@ extern "C" {
 	grWinOpenExternalSharedImage
 	grWinOpenExternalSharedMemory
 	grWinOpenExternalSharedQueueSemaphore
-
-	Mantle Programming Guide (Revision 1.0; March 6, 2015) is maximum for API version 10.1.9.45 */
+	*/
 
 #ifdef __cplusplus
 }
