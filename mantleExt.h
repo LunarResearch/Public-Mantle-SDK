@@ -132,19 +132,19 @@ extern "C" {
 
 	} GR_VIRTUAL_DISPLAY_CREATE_INFO;
 
-	typedef struct _GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE {
+	typedef struct _GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO {
+
+	} GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO;
+
+	typedef struct _GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_CREATE_INFO {
 		// display;
 		// externalImage;
-	} GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE;
+	} GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_CREATE_INFO;
 
-	typedef struct _GR_PRIVATE_DISPLAY_PRESENT {
+	typedef struct _GR_PRIVATE_DISPLAY_PRESENT_CREATE_INFO {
 		// srcImage;
 		// presentDoneFence;
-	} GR_PRIVATE_DISPLAY_PRESENT;
-
-	typedef struct _GR_PRIVATE_DISPALY_SCANLINE {
-
-	} GR_PRIVATE_DISPALY_SCANLINE;
+	} GR_PRIVATE_DISPLAY_PRESENT_CREATE_INFO;
 
 
 	// ==================== FUNCTIONS ====================
@@ -353,7 +353,7 @@ extern "C" {
 
 	GR_RESULT grGetPrivateDisplayScanLine(
 		GR_DISPLAY display,
-		const GR_PRIVATE_DISPALY_SCANLINE* pScanLine);
+		const GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO* pScanLine);
 
 	GR_RESULT grGetPrivateDisplays(
 		GR_DEVICE device,
@@ -367,11 +367,11 @@ extern "C" {
 
 	GR_RESULT grOpenExternalSharedPrivateDisplayImage(
 		GR_DEVICE device,
-		const GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE* pOpenInfo);
+		const GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_CREATE_INFO* pOpenInfo);
 
 	GR_RESULT grPrivateDisplayPresent(
 		GR_DEVICE device,
-		const GR_PRIVATE_DISPLAY_PRESENT* pPresentInfo);
+		const GR_PRIVATE_DISPLAY_PRESENT_CREATE_INFO* pPresentInfo);
 
 	/*
 	grQueueDelayAfterVsync
