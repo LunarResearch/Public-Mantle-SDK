@@ -132,6 +132,10 @@ extern "C" {
 
 	} GR_VIRTUAL_DISPLAY_CREATE_INFO;
 
+	typedef struct _GR_ENABLE_PRIVATE_DISPLAY_CREATE_INFO {
+
+	} GR_ENABLE_PRIVATE_DISPLAY_CREATE_INFO;
+
 	typedef struct _GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO {
 
 	} GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO;
@@ -342,7 +346,7 @@ extern "C" {
 
 	GR_RESULT grEnablePrivateDisplay(
 		GR_DISPLAY display,
-		__int64 pEnableInfo);
+		const GR_ENABLE_PRIVATE_DISPLAY_CREATE_INFO* pEnableInfo);
 
 	GR_RESULT grEnablePrivateDisplayAudio(
 		GR_DISPLAY display,
