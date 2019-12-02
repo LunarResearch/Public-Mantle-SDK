@@ -86,6 +86,14 @@ extern "C" {
 
 
 	// ======================================================
+	// ==================== STRUCTURES ======================
+	// ======================================================
+	typedef struct _GR_DBG_DATA_OBJECT_CREATE_INFO {
+
+	} GR_DBG_DATA_OBJECT_CREATE_INFO;
+
+
+	// ======================================================
 	// ===================== CALLBACKS ======================
 	// ======================================================
 	typedef GR_VOID(GR_STDCALL *GR_DBG_MSG_CALLBACK_FUNCTION)(
@@ -93,7 +101,7 @@ extern "C" {
 		GR_VALIDATION_LEVEL validationLevel,
 		GR_BASE_OBJECT srcObject,
 		GR_SIZE location,
-		GR_DBG_MSG_CODE msgCode,
+		GR_DBG_MSG_CODE msgCode, // GR_ENUM
 		const GR_CHAR* pMsg,
 		GR_VOID* pUserData);
 
