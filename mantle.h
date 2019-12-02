@@ -96,7 +96,7 @@ extern "C" {
 	// ======================================================
 	typedef enum _GR_RESULT {
 		GR_SUCCESS = 0x10000,
-		GR_UNSUPPORTED = 0x10001,
+		GR_UNSUPPORTED,
 		GR_NOT_READY,
 		GR_TIMEOUT,
 		GR_EVENT_SET,
