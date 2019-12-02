@@ -9,7 +9,9 @@ extern "C" {
 #endif
 
 
-	GR_HANDLE(GR_DISPLAY);
+	GR_HANDLE(GR_VIRTUAL_DISPLAY);
+	GR_HANDLE(GR_PRIVATE_DISPLAY);
+	//GR_EXT_PRIVATE_DISPLAY
 
 
 #define GR_MAX_PRIVATE_DISPLAYS 16
@@ -20,6 +22,18 @@ extern "C" {
 	// ======================================================
 	typedef enum _GR_EXT_INFO_TYPE {
 		GR_EXT_INFO_TYPE_PHYSICAL_GPU_SUPPORTED_AXL_VERSION = 0x00306100,
+		// GR_EXT_INFO_TYPE_PERF_EXPERIMENT_PROPERTIES = 0x,
+		// GR_EXT_INFO_TYPE_GLOBAL_COUNTER_LAYOUT = 0x,
+		// GR_EXT_INFO_TYPE_THREAD_TRACE_LAYOUT = 0x,
+		// GR_EXT_INFO_TYPE_SPM_TRACE_LAYOUT = 0x,
+		// GR_EXT_INFO_TYPE_GPU_MEMORY_VIRTUAL_ADDRESS = 0x,
+		// GR_EXT_INFO_TYPE_DESCRIPTOR_SET_SLOT_STRIDE = 0x,
+		// GR_EXT_INFO_TYPE_PHYSICAL_GPU_DISPLAY_CONNECTOR = 0x,
+		// GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_PROPERTIES = 0x,
+		// GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_PRESENT_STATS = 0x,
+		// GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_CONNECTOR_PROPERTIES = 0x,
+		// GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_MODE = 0x,
+		// GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_HDCP_STATUS = 0x,
 		GR_EXT_INFO_TYPE_QUEUE_BORDER_COLOR_PALETTE_PROPERTIES = 0x00306800,
 		GR_EXT_INFO_TYPE_QUEUE_CONTROL_FLOW_PROPERTIES = 0x00306801,
 	} GR_EXT_INFO_TYPE;
@@ -32,6 +46,7 @@ extern "C" {
 		GR_EXT_IMAGE_STATE_GRAPHICS_SHADER_FMASK_LOOKUP = 0x00300100,
 		GR_EXT_IMAGE_STATE_COMPUTE_SHADER_FMASK_LOOKUP = 0x00300101,
 		GR_EXT_IMAGE_STATE_DATA_TRANSFER_DMA_QUEUE = 0x00300102,
+		// GR_EXT_IMAGE_STATE_PRESENT_AND_SHADER_WRITE_ONLY = 0x,
 	} GR_EXT_IMAGE_STATE;
 
 	typedef enum _GR_EXT_MEMORY_STATE {
@@ -50,7 +65,9 @@ extern "C" {
 	} GR_EXT_QUEUE_TYPE;
 
 
-	// ==================== FLAGS ====================
+	// ======================================================
+	// ======================= FLAGS ========================
+	// ======================================================
 	typedef enum _GR_EXT_CONTROL_FLOW_FEATURE_FLAGS {
 		GR_EXT_CONTROL_FLOW_OCCLUSION_PREDICATION = 0x00000001,
 		GR_EXT_CONTROL_FLOW_MEMORY_PREDICATION = 0x00000002,
@@ -67,7 +84,9 @@ extern "C" {
 	} GR_EXT_ACCESS_CLIENT;
 
 
-	// ==================== STRUCTURES ====================
+	// ======================================================
+	// ==================== STRUCTURES ======================
+	// ======================================================
 	typedef struct _GR_PHYSICAL_GPU_SUPPORTED_AXL_VERSION {
 		GR_UINT32 minVersion;
 		GR_UINT32 maxVersion;
@@ -120,38 +139,10 @@ extern "C" {
 		};
 	} GR_GPU_TIMESTAMP_CALIBRATION;
 
-	typedef struct _GR_PERF_EXPERIMENT_CREATE_INFO {
 
-	} GR_PERF_EXPERIMENT_CREATE_INFO;
-
-	typedef struct _GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO {
-		// display
-	} GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO;
-
-	typedef struct _GR_VIRTUAL_DISPLAY_CREATE_INFO {
-
-	} GR_VIRTUAL_DISPLAY_CREATE_INFO;
-
-	typedef struct _GR_ENABLE_PRIVATE_DISPLAY_CREATE_INFO {
-
-	} GR_ENABLE_PRIVATE_DISPLAY_CREATE_INFO;
-
-	typedef struct _GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO {
-
-	} GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO;
-
-	typedef struct _GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_CREATE_INFO {
-		// display;
-		// externalImage;
-	} GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_CREATE_INFO;
-
-	typedef struct _GR_PRIVATE_DISPLAY_PRESENT_CREATE_INFO {
-		// srcImage;
-		// presentDoneFence;
-	} GR_PRIVATE_DISPLAY_PRESENT_CREATE_INFO;
-
-
-	// ==================== FUNCTIONS ====================
+	// ======================================================
+	// ===================== FUNCTIONS ======================
+	// ======================================================
 	GR_UINT32 grGetExtensionLibraryVersion();
 
 	GR_RESULT grCreateBorderColorPalette(
@@ -242,29 +233,148 @@ extern "C" {
 		GR_GPU_TIMESTAMP_CALIBRATION* pCalibrationData);
 
 
+	// ======================================================
 	// From new API version 10.1.9.xxx
-	// Mantle Programming Guide (Revision 1.0; March 6, 2015) is maximum for API version 10.1.9.45
+	// 
+	// Mantle Programming Guide (Revision 1.0; March 6, 2015)
+	// is maximum for API version 10.1.9.45
+	// ======================================================
+
+	// ======================================================
+		// PRIVATE DISPLAY
+	// ======================================================
+	typedef struct _GR_ADD_EMULATE_PRIVATE_DISPALY_CREATE_INFO {
+		// pDisplayId;
+	} GR_ADD_EMULATE_PRIVATE_DISPALY_CREATE_INFO;
+
+	typedef struct _GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO {
+		// display
+	} GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO;
+
+	typedef struct _GR_ENABLE_PRIVATE_DISPLAY_CREATE_INFO {
+		// 
+	} GR_ENABLE_PRIVATE_DISPLAY_CREATE_INFO;
+
+	typedef struct _GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO {
+		// 
+	} GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO;
+
+	typedef struct _GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_CREATE_INFO {
+		// display;
+		// externalImage;
+	} GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_CREATE_INFO;
+
+	typedef struct _GR_PRIVATE_DISPLAY_PRESENT_CREATE_INFO {
+		GR_IMAGE srcImage;
+		// presentDoneFence;
+	} GR_PRIVATE_DISPLAY_PRESENT_CREATE_INFO;
+
 
 	GR_RESULT grAddEmulatedPrivateDisplay(
 		GR_DEVICE device,
-		__int64 a2,
-		__int64 a3);
+		const GR_ADD_EMULATE_PRIVATE_DISPALY_CREATE_INFO* pEmulateInfo,
+		GR_UINT* pTargetId);
+
+	GR_RESULT grBlankPrivateDisplay(
+		GR_PRIVATE_DISPLAY display);
+
+	GR_RESULT grCreatePrivateDisplayImage(
+		GR_DEVICE device,
+		const GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO* pCreateInfo,
+		GR_IMAGE* pImage,
+		GR_GPU_MEMORY* pMem);
+
+	GR_RESULT grDisablePrivateDisplay(
+		GR_PRIVATE_DISPLAY display);
+
+	GR_RESULT grEnablePrivateDisplay(
+		GR_PRIVATE_DISPLAY display,
+		const GR_ENABLE_PRIVATE_DISPLAY_CREATE_INFO* pEnableInfo);
+
+	GR_RESULT grEnablePrivateDisplayAudio(
+		GR_PRIVATE_DISPLAY display,
+		unsigned int a2);
+
+	GR_RESULT grGetPrivateDisplays(
+		GR_DEVICE device,
+		GR_UINT* pDisplayCount,
+		GR_PRIVATE_DISPLAY displays[GR_MAX_PRIVATE_DISPLAYS]);
+
+	GR_RESULT grGetPrivateDisplayScanLine(
+		GR_PRIVATE_DISPLAY display,
+		const GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO* pScanLine);
+
+	GR_RESULT grOpenExternalSharedPrivateDisplayImage(
+		GR_DEVICE device,
+		const GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_CREATE_INFO* pOpenInfo);
+
+	GR_RESULT grPrivateDisplayPresent(
+		GR_DEVICE device,
+		const GR_PRIVATE_DISPLAY_PRESENT_CREATE_INFO* pPresentInfo);
+
+	
+	// ======================================================
+		// VIRTUAL DISPLAY
+	// ======================================================
+	typedef struct _GR_VIRTUAL_DISPLAY_CREATE_INFO {
+		//
+	} GR_VIRTUAL_DISPLAY_CREATE_INFO;
+
+	typedef struct _GR_VIRTUAL_DISPLAY_PROPERTIES {
+
+	} GR_VIRTUAL_DISPLAY_PROPERTIES;
+
+	GR_RESULT grCreateVirtualDisplay(
+		GR_DEVICE device,
+		const GR_VIRTUAL_DISPLAY_CREATE_INFO* pCreateInfo,
+		GR_VIRTUAL_DISPLAY* display);
+
+	GR_RESULT grDestroyVirtualDisplay(
+		GR_DEVICE device,
+		GR_VIRTUAL_DISPLAY display);
+
+	GR_RESULT grGetVirtualDisplayProperties(
+		GR_DEVICE device,
+		GR_EXT_INFO_TYPE infoType,
+		GR_VOID* pData);
+
+
+	// ======================================================
+		// PERF EXPERIMENT
+	// ======================================================
+	typedef struct _GR_PERF_EXPERIMENT_CREATE_INFO {
+		// 
+	} GR_PERF_EXPERIMENT_CREATE_INFO;
+
 
 	GR_RESULT grAddPerfExperimentCounter(
 		GR_PERF_EXPERIMENT perfExperiment,
 		__int64 a2);
-
+	
 	GR_RESULT grAddPerfExperimentTrace(
 		GR_PERF_EXPERIMENT perfExperiment,
 		__int64 a2);
 
-	GR_RESULT grBlankPrivateDisplay(
-		GR_DISPLAY display);
-
-	GR_RESULT grCmdBeginPerfExperiment(
+	GR_VOID grCmdBeginPerfExperiment(
 		GR_CMD_BUFFER cmdBuffer,
 		__int64 a2);
 
+	GR_VOID grCmdEndPerfExperiment(
+		GR_CMD_BUFFER cmdBuffer,
+		__int64 a2);
+
+	GR_RESULT grCreatePerfExperiment(
+		GR_DEVICE device,
+		const GR_PERF_EXPERIMENT_CREATE_INFO* pCreateInfo,
+		GR_PERF_EXPERIMENT* pPerfExperiment);
+
+	GR_RESULT grFinalizePerfExperiment(
+		GR_PERF_EXPERIMENT perfExperiment);
+
+	
+	// ======================================================
+		// 
+	// ======================================================
 	GR_RESULT grCmdBindUserData(
 		GR_CMD_BUFFER cmdBuffer,
 		unsigned int a2,
@@ -292,10 +402,6 @@ extern "C" {
 		__int64 a2,
 		__int64 a3);
 
-	GR_RESULT grCmdEndPerfExperiment(
-		GR_CMD_BUFFER cmdBuffer,
-		__int64 a2);
-
 	GR_RESULT grCmdInsertTraceMarker(
 		GR_CMD_BUFFER cmdBuffer,
 		unsigned int a2,
@@ -321,61 +427,6 @@ extern "C" {
 		const GR_FMASK_IMAGE_VIEW_CREATE_INFO* pCreateInfo,
 		GR_IMAGE_VIEW* pImageView);
 
-	GR_RESULT grCreatePerfExperiment(
-		GR_DEVICE device,
-		const GR_PERF_EXPERIMENT_CREATE_INFO* pCreateInfo,
-		GR_PERF_EXPERIMENT* pPerfExperiment);
-
-	GR_RESULT grCreatePrivateDisplayImage(
-		GR_DEVICE device,
-		const GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO* pCreateInfo,
-		GR_IMAGE* pImage,
-		GR_GPU_MEMORY* pMem);
-
-	GR_RESULT grCreateVirtualDisplay(
-		GR_DEVICE device,
-		const GR_VIRTUAL_DISPLAY_CREATE_INFO* pCreateInfo,
-		GR_DISPLAY* display);
-
-	GR_RESULT grDestroyVirtualDisplay(
-		GR_DEVICE device,
-		GR_DISPLAY display);
-
-	GR_RESULT grDisablePrivateDisplay(
-		GR_DISPLAY display);
-
-	GR_RESULT grEnablePrivateDisplay(
-		GR_DISPLAY display,
-		const GR_ENABLE_PRIVATE_DISPLAY_CREATE_INFO* pEnableInfo);
-
-	GR_RESULT grEnablePrivateDisplayAudio(
-		GR_DISPLAY display,
-		unsigned int a2);
-
-	GR_RESULT grFinalizePerfExperiment(
-		GR_PERF_EXPERIMENT perfExperiment);
-
-	GR_RESULT grGetPrivateDisplayScanLine(
-		GR_DISPLAY display,
-		const GR_PRIVATE_DISPALY_SCANLINE_CREATE_INFO* pScanLine);
-
-	GR_RESULT grGetPrivateDisplays(
-		GR_DEVICE device,
-		GR_UINT* pDisplayCount,
-		GR_DISPLAY displays[GR_MAX_PRIVATE_DISPLAYS]);
-
-	GR_RESULT grGetVirtualDisplayProperties(
-		GR_DEVICE device,
-		unsigned int a2,
-		__int64 a3);
-
-	GR_RESULT grOpenExternalSharedPrivateDisplayImage(
-		GR_DEVICE device,
-		const GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_CREATE_INFO* pOpenInfo);
-
-	GR_RESULT grPrivateDisplayPresent(
-		GR_DEVICE device,
-		const GR_PRIVATE_DISPLAY_PRESENT_CREATE_INFO* pPresentInfo);
 
 	/*
 	grQueueDelayAfterVsync
