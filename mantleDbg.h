@@ -1,4 +1,16 @@
-#pragma once
+/*
+
+Module Name:
+
+	mantleDbg.h
+
+Abstract:
+
+	Mantle debug API
+
+*/
+
+
 #ifndef MANTLEDBG_H_
 #define MANTLEDBG_H_
 
@@ -6,7 +18,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif // __cplusplus
 
 
 	// ======================================================
@@ -89,7 +101,7 @@ extern "C" {
 	// ==================== STRUCTURES ======================
 	// ======================================================
 	typedef struct _GR_DBG_DATA_OBJECT_CREATE_INFO {
-
+		//grDbgCreateDataObject
 	} GR_DBG_DATA_OBJECT_CREATE_INFO;
 
 
@@ -150,6 +162,7 @@ extern "C" {
 
 
 #ifdef __cplusplus
-}
-#endif
-#endif
+} // extern "C"
+#endif // __cplusplus
+
+#endif // MANTLEDBG_H_
