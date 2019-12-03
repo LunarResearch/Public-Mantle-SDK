@@ -1,10 +1,22 @@
-#pragma once
+/*
+
+Module Name:
+
+	mantle.h
+
+Abstract:
+
+	Mantle core API
+
+*/
+
+
 #ifndef MANTLE_H_
 #define MANTLE_H_ 1
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif // __cplusplus
 
 
 #define GR_VERSION_1_0 1
@@ -54,11 +66,17 @@ extern "C" {
 	GR_HANDLE(GR_WSI_WIN_DISPLAY);
 
 	typedef GR_VOID* GR_OBJECT;
+
 	GR_HANDLE(GR_BASE_OBJECT);
 	GR_HANDLE(GR_STATE_OBJECT);
 	GR_HANDLE(GR_BORDER_COLOR_PALETTE);
+	GR_HANDLE(GR_VIRTUAL_DISPLAY);
+	GR_HANDLE(GR_PRIVATE_DISPLAY);
+	//GR_EXT_PRIVATE_DISPLAY
 
 
+#define GR_TRUE 1
+#define GR_FALSE 0
 #define GR_MAX_PHYSICAL_GPUS 4
 #define GR_MAX_PHYSICAL_GPU_NAME 256
 #define GR_MAX_MEMORY_HEAPS 16
@@ -141,7 +159,7 @@ extern "C" {
 		GR_WSI_WIN_ERROR_INCOMPATIBLE_DISPLAY_MODE,
 		GR_WSI_WIN_ERROR_MULTI_DEVICE_PRESENT_FAILED,
 		GR_WSI_WIN_ERROR_WINDOWED_PRESENT_UNAVAILABLE,
-		GR_WSI_WIN_ERROR_INVALID_RESOLUTION
+		GR_WSI_WIN_ERROR_INVALID_RESOLUTION,
 	} GR_RESULT;
 
 	typedef enum _GR_ATOMIC_OP {
@@ -1776,6 +1794,7 @@ extern "C" {
 
 
 #ifdef __cplusplus
-}
-#endif
-#endif
+} // extern "C"
+#endif // __cplusplus
+
+#endif // MANTLE_H_
