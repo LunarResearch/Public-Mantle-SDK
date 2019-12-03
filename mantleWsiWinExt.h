@@ -1,4 +1,16 @@
-#pragma once
+/*
+
+Module Name:
+
+	mantleWsiWinExt.h
+
+Abstract:
+
+	Windows® specific WSI extension interface
+
+*/
+
+
 #ifndef MANTLEWSIWINEXT_H_
 #define MANTLEWSIWINEXT_H_
 
@@ -6,7 +18,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif // __cplusplus
 
 
 #define GR_MAX_DEVICE_NAME_LEN 32
@@ -182,6 +194,7 @@ extern "C" {
 
 
 #ifdef __cplusplus
-}
-#endif
-#endif
+} // extern "C"
+#endif // __cplusplus
+
+#endif // MANTLEWSIWINEXT_H_
