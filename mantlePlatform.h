@@ -77,7 +77,7 @@ extern "C" {
 #endif
 
 #ifdef GR_USE_PLATFORM_WIN32
-#include <windows.h>
+#include <Windows.h>
 #endif
 
 #ifdef GR_USE_PLATFORM_XCB
