@@ -1,4 +1,16 @@
-#pragma once
+/*
+
+Module Name:
+
+	mantleExtDbg.h
+
+Abstract:
+
+	Debug features for AMD Mantle extensions
+
+*/
+
+
 #ifndef MANTLEEXTDBG_H_
 #define MANTLEEXTDBG_H_
 
@@ -6,11 +18,12 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif // __cplusplus
 
 	// something ???
 
 #ifdef __cplusplus
-}
-#endif
-#endif
+} // extern "C"
+#endif // __cplusplus
+
+#endif // MANTLEEXTDBG_H_
