@@ -1,4 +1,16 @@
-#pragma once
+/*
+
+Module Name:
+
+	mantleExt.h
+
+Abstract:
+
+	AMD Mantle extension interface
+
+*/
+
+
 #ifndef MANTLEEXT_H_
 #define MANTLEEXT_H_
 
@@ -6,12 +18,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
-
-
-	GR_HANDLE(GR_VIRTUAL_DISPLAY);
-	GR_HANDLE(GR_PRIVATE_DISPLAY);
-	//GR_EXT_PRIVATE_DISPLAY
+#endif // __cplusplus
 
 
 #define GR_MAX_PRIVATE_DISPLAYS 16
@@ -427,26 +434,89 @@ extern "C" {
 		const GR_FMASK_IMAGE_VIEW_CREATE_INFO* pCreateInfo,
 		GR_IMAGE_VIEW* pImageView);
 
+	GR_RESULT grQueueDelayAfterVsync(
+		GR_QUEUE queue,
+		__int64 a2,
+		unsigned int a3);
 
-	/*
-	grQueueDelayAfterVsync
-	grQueueMigrateObjects
-	grQueueSetExecutionPriority
-	grRegisterPowerEvent
-	grRegisterPrivateDisplayEvent
-	grRemoveEmulatedPrivateDisplay
-	grSetEventAfterVsync
-	grSetPowerDefaultPerformance
-	grSetPowerProfile
-	grSetPowerRegions
-	grSetPrivateDisplayPowerMode
-	grSetPrivateDisplaySettings
-	grWinOpenExternalSharedImage
-	grWinOpenExternalSharedMemory
-	grWinOpenExternalSharedQueueSemaphore
-	*/
+	GR_RESULT grQueueMigrateObjects(
+		GR_QUEUE queue,
+		unsigned int a2,
+		__int64 a3,
+		__int64 a4);
+
+	GR_RESULT grQueueSetExecutionPriority(
+		GR_QUEUE queue,
+		unsigned int a2);
+
+	GR_RESULT grRegisterPowerEvent(
+		GR_DEVICE device,
+		__int64 a2);
+
+	GR_RESULT grRegisterPrivateDisplayEvent(
+		GR_DEVICE device,
+		__int64 a2);
+
+	GR_RESULT grRemoveEmulatedPrivateDisplay(
+		GR_DEVICE device,
+		unsigned int a2);
+
+	GR_RESULT grSetEventAfterVsync(
+		__int64 display,
+		__int64 a2,
+		unsigned int a3,
+		unsigned int a4);
+
+	GR_RESULT grSetPowerDefaultPerformance(
+		GR_DEVICE device,
+		__int64 a2,
+		__int64 a3);
+
+	GR_RESULT grSetPowerProfile(
+		GR_DEVICE device,
+		unsigned int a2);
+
+	GR_RESULT grSetPowerRegions(
+		GR_DEVICE device,
+		__int64 a2,
+		__int64 a3);
+
+	GR_RESULT grSetPrivateDisplayPowerMode(
+		GR_PRIVATE_DISPLAY display,
+		unsigned int a2);
+
+	GR_RESULT grSetPrivateDisplaySettings(
+		GR_PRIVATE_DISPLAY display,
+		unsigned int a2,
+		__int64 a3,
+		__int64 a4);
+
+	GR_RESULT grWinAllocMemory(
+		GR_DEVICE device,
+		__int64 a2,
+		__int64 a3,
+		__int64 a4,
+		__int64 a5);
+
+	GR_RESULT grWinOpenExternalSharedImage(
+		GR_DEVICE device,
+		__int64 a2,
+		__int64 a3,
+		__int64 a4);
+
+	GR_RESULT grWinOpenExternalSharedMemory(
+		GR_DEVICE device,
+		__int64 a2,
+		__int64 a3);
+
+	GR_RESULT grWinOpenExternalSharedQueueSemaphore(
+		GR_DEVICE device,
+		__int64 a2,
+		__int64 a3);
+
 
 #ifdef __cplusplus
-}
-#endif
-#endif
+} // extern "C"
+#endif // __cplusplus
+
+#endif // MANTLEEXT_H_
