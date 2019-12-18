@@ -22,6 +22,7 @@ extern "C" {
 
 
 	GR_HANDLE(GR_PERF_EXPERIMENT);
+	GR_HANDLE(GR_BORDER_COLOR_PALETTE);
 	GR_HANDLE(GR_PRIVATE_DISPLAY);
 	GR_HANDLE(GR_VIRTUAL_DISPLAY);
 
@@ -30,11 +31,6 @@ extern "C" {
 #define GR_MAX_PRIVATE_DISPLAYS 4
 
 
-#define GR_DMA_QUEUE_EXTENSION_NAME "GR_DMA_QUEUE"
-#define GR_CONTROL_FLOW_EXTENSION_NAME "GR_CONTROL_FLOW"
-#define GR_TIMER_QUEUE_EXTENSION_NAME "GR_TIMER_QUEUE"
-
-#define GR_RESOURCE_STATE_ACCESS_EXTENSION_NAME "GR_RESOURCE_STATE_ACCESS"
 #define GR_OBJECT_MIGRATION_EXTENSION_NAME "GR_OBJECT_MIGRATION"
 #define GR_REGMEM_ACCESS_EXTENSION_NAME "GR_REGMEM_ACCESS"
 #define GR_PIPELINE_USER_DATA_EXTENSION_NAME "GR_PIPELINE_USER_DATA"
@@ -72,12 +68,6 @@ extern "C" {
 		// GR_EXT_PRIVATE_DISPLAY_PRESENT_VSYNC = 0x00300400,
 	} GR_EXT_PRIVATE_DISPLAY;
 
-	typedef enum _GR_EXT_IMAGE_STATE {
-		GR_EXT_IMAGE_STATE_GRAPHICS_SHADER_FMASK_LOOKUP = 0x00300100,
-		GR_EXT_IMAGE_STATE_COMPUTE_SHADER_FMASK_LOOKUP = 0x00300101,
-		GR_EXT_IMAGE_STATE_DATA_TRANSFER_DMA_QUEUE = 0x00300102,
-		GR_EXT_IMAGE_STATE_PRESENT_AND_SHADER_WRITE_ONLY = 0x00300103,
-	} GR_EXT_IMAGE_STATE;
 
 	typedef enum _GR_EXT_MEMORY_STATE {
 		GR_EXT_MEMORY_STATE_COPY_OCCLUSION_DATA = 0x00300000,
@@ -88,6 +78,18 @@ extern "C" {
 		GR_EXT_OCCLUSION_CONDITION_VISIBLE = 0x00300300,
 		GR_EXT_OCCLUSION_CONDITION_INVISIBLE = 0x00300301,
 	} GR_EXT_OCCLUSION_CONDITION;
+
+	// ======================================================
+		// DMA QUEUE EXTENSION
+	// ======================================================
+#define GR_DMA_QUEUE_EXTENSION_NAME "GR_DMA_QUEUE"
+
+	typedef enum _GR_EXT_IMAGE_STATE {
+		GR_EXT_IMAGE_STATE_GRAPHICS_SHADER_FMASK_LOOKUP = 0x00300100,
+		GR_EXT_IMAGE_STATE_COMPUTE_SHADER_FMASK_LOOKUP = 0x00300101,
+		GR_EXT_IMAGE_STATE_DATA_TRANSFER_DMA_QUEUE = 0x00300102,
+		GR_EXT_IMAGE_STATE_PRESENT_AND_SHADER_WRITE_ONLY = 0x00300103,
+	} GR_EXT_IMAGE_STATE;
 
 	typedef enum _GR_EXT_QUEUE_TYPE {
 		GR_EXT_QUEUE_DMA = 0x00300200,
@@ -105,6 +107,11 @@ extern "C" {
 		GR_EXT_CONTROL_FLOW_CONDITIONAL_EXECUTION = 0x00000004,
 		GR_EXT_CONTROL_FLOW_LOOP_EXECUTION = 0x00000008,
 	} GR_EXT_CONTROL_FLOW_FEATURE_FLAGS;
+
+	// ======================================================
+		// RESOURCE STATE ACCESS EXTENSION
+	// ======================================================
+#define GR_RESOURCE_STATE_ACCESS_EXTENSION_NAME "GR_RESOURCE_STATE_ACCESS"
 
 	typedef enum _GR_EXT_ACCESS_CLIENT {
 		GR_EXT_ACCESS_DEFAULT = 0x00000000,
@@ -174,22 +181,22 @@ extern "C" {
 	// ======================================================
 	// ===================== FUNCTIONS ======================
 	// ======================================================
-	GR_UINT32 grGetExtensionLibraryVersion();
-
+	
 	// ======================================================
-		// BORDER COLOR PALETTE FUNCTIONS
+		// BORDER COLOR PALETTE EXTENSION FUNCTIONS
 	// ======================================================
 #define GR_BORDER_COLOR_PALETTE_EXTENSION_NAME "GR_BORDER_COLOR_PALETTE"
+
 	GR_RESULT grCreateBorderColorPalette(
 		GR_DEVICE device,
-		const GR_BORDER_COLOR_PALETTE_CREATE_INFO* pCreateInfo,
-		GR_BORDER_COLOR_PALETTE* pPalette);
+		_In_ const GR_BORDER_COLOR_PALETTE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_BORDER_COLOR_PALETTE* pPalette);
 
 	GR_RESULT grUpdateBorderColorPalette(
 		GR_BORDER_COLOR_PALETTE palette,
 		GR_UINT firstEntry,
 		GR_UINT entryCount,
-		const GR_FLOAT* pEntries);
+		_In_ const GR_FLOAT* pEntries);
 
 	GR_VOID grCmdBindBorderColorPalette(
 		GR_CMD_BUFFER cmdBuffer,
@@ -197,23 +204,25 @@ extern "C" {
 		GR_BORDER_COLOR_PALETTE palette);
 
 	// ======================================================
-		// ADVANCED MSAA FUNCTIONS
+		// ADVANCED MULTISAMPLING EXTENSION FUNCTIONS
 	// ======================================================
 #define GR_ADVANCED_MSAA_EXTENSION_NAME "GR_ADVANCED_MSAA"
+
 	GR_RESULT grCreateAdvancedMsaaState(
 		GR_DEVICE device,
-		const GR_ADVANCED_MSAA_STATE_CREATE_INFO* pCreateInfo,
-		GR_MSAA_STATE_OBJECT* pState);
+		_In_ const GR_ADVANCED_MSAA_STATE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_MSAA_STATE_OBJECT* pState);
 
 	GR_RESULT grCreateFmaskImageView(
 		GR_DEVICE device,
-		const GR_FMASK_IMAGE_VIEW_CREATE_INFO* pCreateInfo,
-		GR_IMAGE_VIEW* pView);
+		_In_ const GR_FMASK_IMAGE_VIEW_CREATE_INFO* pCreateInfo,
+		_Out_ GR_IMAGE_VIEW* pView);
 
 	// ======================================================
-		// OCCLUSION DATA FUNCTIONS
+		// COPY OCCLUSION QUERY DATA EXTENSION FUNCTIONS
 	// ======================================================
 #define GR_COPY_OCCLUSION_DATA_EXTENSION_NAME "GR_COPY_OCCLUSION_DATA"
+
 	GR_RESULT grCmdCopyOcclusionData(
 		GR_CMD_BUFFER cmdBuffer,
 		GR_QUERY_POOL queryPool,
@@ -222,6 +231,11 @@ extern "C" {
 		GR_GPU_MEMORY destMem,
 		GR_GPU_SIZE destOffset,
 		GR_BOOL accumulateData);
+
+	// ======================================================
+		// COMMAND BUFFER CONTROL FLOW EXTENSION FUNCTIONS
+	// ======================================================
+#define GR_CONTROL_FLOW_EXTENSION_NAME "GR_CONTROL_FLOW"
 
 	GR_VOID grCmdSetOcclusionPredication(
 		GR_CMD_BUFFER cmdBuffer,
@@ -234,9 +248,6 @@ extern "C" {
 	GR_VOID grCmdResetOcclusionPredication(
 		GR_CMD_BUFFER cmdBuffer);
 
-	// ======================================================
-		// 
-	// ======================================================
 	GR_VOID grCmdSetMemoryPredication(
 		GR_CMD_BUFFER cmdBuffer,
 		GR_GPU_MEMORY mem,
@@ -270,26 +281,32 @@ extern "C" {
 	GR_VOID grCmdEndWhile(
 		GR_CMD_BUFFER cmdBuffer);
 
+	// ======================================================
+		// TIMER QUEUE EXTENSION FUNCTIONS
+	// ======================================================
+#define GR_TIMER_QUEUE_EXTENSION_NAME "GR_TIMER_QUEUE"
+
 	GR_RESULT grQueueDelay(
 		GR_QUEUE queue,
 		GR_FLOAT delay);
 
+	// ======================================================
+		// GPU TIMESTAMP CALIBRATION EXTENSION FUNCTIONS
+	// ======================================================
 #define GR_GPU_TIMESTAMP_CALIBRATION_EXTENSION_NAME "GR_GPU_TIMESTAMP_CALIBRATION"
+
 	GR_RESULT grCalibrateGpuTimestamp(
 		GR_DEVICE device,
-		GR_GPU_TIMESTAMP_CALIBRATION* pCalibrationData);
+		_Out_ GR_GPU_TIMESTAMP_CALIBRATION* pCalibrationData);
 
 
-	// ======================================================
-	// From new API version 10.1.9.xxx
-	// 
-	// Mantle Programming Guide (Revision 1.0; March 6, 2015)
-	// is maximum for API version 10.1.9.45
-	// ======================================================
+	/*
+	* From new API version 10.1.9.xxx
+	* 
+	* Mantle Programming Guide (Revision 1.0; March 6, 2015)
+	* is maximum for API version 10.1.9.45
+	*/
 
-	// ======================================================
-		// PRIVATE DISPLAY
-	// ======================================================
 	typedef struct _GR_ADD_EMULATE_PRIVATE_DISPALY_CREATE_INFO {
 		// pDisplayId;
 	} GR_ADD_EMULATE_PRIVATE_DISPALY_CREATE_INFO;
@@ -313,8 +330,11 @@ extern "C" {
 		GR_EXT_PRIVATE_DISPLAY display;
 	} GR_EXT_PRIVATE_DISPLAY_PRESENT_INFO;
 
-
+	// ======================================================
+		// PRIVATE DISPLAY EXTENSION FUNCTIONS
+	// ======================================================
 #define GR_PRIVATE_DISPLAY_EXTENSION_NAME "GR_PRIVATE_DISPLAY"
+
 	GR_RESULT grGetPrivateDisplays(
 		_In_ GR_DEVICE device,
 		_Inout_ GR_UINT* pDisplayCount,
@@ -466,6 +486,8 @@ extern "C" {
 	GR_RESULT grQueueSetExecutionPriority(
 		GR_QUEUE queue,
 		unsigned int a2);
+
+	GR_UINT32 grGetExtensionLibraryVersion();
 
 
 	// ======================================================
