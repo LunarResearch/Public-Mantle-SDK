@@ -154,6 +154,7 @@ extern "C" {
 	// ==================== FUNCTIONS =======================
 	// ======================================================
 #define GR_WSI_WINDOWS_EXTENSION_NAME "GR_WSI_WINDOWS"
+	
 	GR_RESULT grWsiWinGetDisplays(
 		_In_ GR_DEVICE device,
 		_Inout_ GR_UINT* pDisplayCount,
