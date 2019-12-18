@@ -1,4 +1,16 @@
-#pragma once
+/*
+
+Module Name:
+
+	mantleWsiWinExtDbg.h
+
+Abstract:
+
+	Debug features for Windows® specific WSI extension interface
+
+*/
+
+
 #ifndef MANTLEWSIWINEXTDBG_H_
 #define MANTLEWSIWINEXTDBG_H_
 
@@ -6,11 +18,12 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif // __cplusplus
 
 	// something ???
 
 #ifdef __cplusplus
-}
-#endif
-#endif
+} // extern "C"
+#endif // __cplusplus
+
+#endif // MANTLEWSIWINEXTDBG_H_
