@@ -21,8 +21,8 @@ extern "C" {
 #endif // __cplusplus
 
 
-	GR_HANDLE(GR_PERF_EXPERIMENT);
 	GR_HANDLE(GR_BORDER_COLOR_PALETTE);
+	GR_HANDLE(GR_PERF_EXPERIMENT);
 	GR_HANDLE(GR_PRIVATE_DISPLAY);
 	GR_HANDLE(GR_VIRTUAL_DISPLAY);
 
@@ -42,30 +42,26 @@ extern "C" {
 	// ======================================================
 	typedef enum _GR_EXT_INFO_TYPE {
 		GR_EXT_INFO_TYPE_PHYSICAL_GPU_SUPPORTED_AXL_VERSION = 0x00306100,
-		// GR_EXT_INFO_TYPE_PHYSICAL_GPU_DISPLAY_CONNECTOR = 0x00306,
-		// GR_EXT_INFO_TYPE_PHYSICAL_GPU_VIRTUAL_DISPLAY_PROPERTIES = 0x00306,
-		// GR_EXT_INFO_TYPE_PERF_EXPERIMENT_PROPERTIES = 0x00306,
-		// GR_EXT_INFO_TYPE_GLOBAL_COUNTER_LAYOUT = 0x00306,
-		// GR_EXT_INFO_TYPE_THREAD_TRACE_LAYOUT = 0x00306,
-		// GR_EXT_INFO_TYPE_SPM_TRACE_LAYOUT = 0x00306,
-		// GR_EXT_INFO_TYPE_GPU_MEMORY_VIRTUAL_ADDRESS = 0x00306,
-		// GR_EXT_INFO_TYPE_DESCRIPTOR_SET_SLOT_STRIDE = 0x00306,
-		// GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_PROPERTIES = 0x00306,
-		// GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_PRESENT_STATS = 0x00306,
-		// GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_CONNECTOR_PROPERTIES = 0x00306,
-		// GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_MODE = 0x00306,
-		// GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_HDCP_STATUS = 0x00306,
-		GR_EXT_INFO_TYPE_QUEUE_BORDER_COLOR_PALETTE_PROPERTIES = 0x00306800,
-		GR_EXT_INFO_TYPE_QUEUE_CONTROL_FLOW_PROPERTIES = 0x00306801,
+		GR_EXT_INFO_TYPE_PERF_EXPERIMENT_PROPERTIES = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_GLOBAL_COUNTER_LAYOUT = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_THREAD_TRACE_LAYOUT = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_SPM_TRACE_LAYOUT = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_PROPERTIES = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_PRESENT_STATS = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_CONNECTOR_PROPERTIES = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_MODE = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_GPU_MEMORY_VIRTUAL_ADDRESS = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_DESCRIPTOR_SET_SLOT_STRIDE = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_PHYSICAL_GPU_DISPLAY_CONNECTORS = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_PRIVATE_DISPLAY_HDCP_STATUS = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_PHYSICAL_GPU_VIRTUAL_DISPLAY_PROPERTIES = 0x00306/*???*/,
+		GR_EXT_INFO_TYPE_QUEUE_BORDER_COLOR_PALETTE_PROPERTIES = 0x00306800, // missing in the new driver version
+		GR_EXT_INFO_TYPE_QUEUE_CONTROL_FLOW_PROPERTIES = 0x00306801, // missing in the new driver version
 	} GR_EXT_INFO_TYPE;
 
 	typedef enum _GR_EXT_BORDER_COLOR_TYPE {
 		GR_EXT_BORDER_COLOR_TYPE_PALETTE_ENTRY_0 = 0x0030a000,
 	} GR_EXT_BORDER_COLOR_TYPE;
-
-	typedef enum _GR_EXT_PRIVATE_DISPLAY {
-		// GR_EXT_PRIVATE_DISPLAY_PRESENT_VSYNC = 0x00300400,
-	} GR_EXT_PRIVATE_DISPLAY;
 
 	typedef enum _GR_EXT_MEMORY_STATE {
 		GR_EXT_MEMORY_STATE_COPY_OCCLUSION_DATA = 0x00300000,
@@ -76,6 +72,10 @@ extern "C" {
 		GR_EXT_OCCLUSION_CONDITION_VISIBLE = 0x00300300,
 		GR_EXT_OCCLUSION_CONDITION_INVISIBLE = 0x00300301,
 	} GR_EXT_OCCLUSION_CONDITION;
+
+	typedef enum _GR_EXT_PRIVATE_DISPLAY {
+		GR_EXT_PRIVATE_DISPLAY_PRESENT_VSYNC = 0x00300400, //??
+	} GR_EXT_PRIVATE_DISPLAY;
 
 	// ------------------------------------------------------
 		// DMA QUEUE EXTENSION
@@ -175,6 +175,10 @@ extern "C" {
 		};
 	} GR_GPU_TIMESTAMP_CALIBRATION;
 
+	typedef struct _GR_PERF_EXPERIMENT_CREATE_INFO {
+		// 
+	} GR_PERF_EXPERIMENT_CREATE_INFO;
+
 	typedef struct _GR_ADD_EMULATE_PRIVATE_DISPALY_INFO {
 		GR_UINT* pDisplayId;
 	} GR_ADD_EMULATE_PRIVATE_DISPALY_INFO;
@@ -188,7 +192,7 @@ extern "C" {
 	} GR_ENABLE_PRIVATE_DISPLAY_INFO;
 
 	typedef struct _GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_INFO {
-		// display;
+		GR_PRIVATE_DISPLAY display;
 		// externalImage;
 	} GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_INFO;
 
@@ -206,10 +210,6 @@ extern "C" {
 		// 
 	} GR_VIRTUAL_DISPLAY_PROPERTIES;
 
-	typedef struct _GR_PERF_EXPERIMENT_CREATE_INFO {
-		// 
-	} GR_PERF_EXPERIMENT_CREATE_INFO;
-
 
 	// ======================================================
 	// ===================== FUNCTIONS ======================
@@ -222,7 +222,7 @@ extern "C" {
 #define GR_BORDER_COLOR_PALETTE_EXTENSION_NAME "GR_BORDER_COLOR_PALETTE"
 
 	GR_RESULT grCreateBorderColorPalette(
-		GR_DEVICE device,
+		_In_ GR_DEVICE device,
 		_In_ const GR_BORDER_COLOR_PALETTE_CREATE_INFO* pCreateInfo,
 		_Out_ GR_BORDER_COLOR_PALETTE* pPalette);
 
@@ -243,12 +243,12 @@ extern "C" {
 #define GR_ADVANCED_MSAA_EXTENSION_NAME "GR_ADVANCED_MSAA"
 
 	GR_RESULT grCreateAdvancedMsaaState(
-		GR_DEVICE device,
+		_In_ GR_DEVICE device,
 		_In_ const GR_ADVANCED_MSAA_STATE_CREATE_INFO* pCreateInfo,
 		_Out_ GR_MSAA_STATE_OBJECT* pState);
 
 	GR_RESULT grCreateFmaskImageView(
-		GR_DEVICE device,
+		_In_ GR_DEVICE device,
 		_In_ const GR_FMASK_IMAGE_VIEW_CREATE_INFO* pCreateInfo,
 		_Out_ GR_IMAGE_VIEW* pView);
 
@@ -330,8 +330,37 @@ extern "C" {
 #define GR_GPU_TIMESTAMP_CALIBRATION_EXTENSION_NAME "GR_GPU_TIMESTAMP_CALIBRATION"
 
 	GR_RESULT grCalibrateGpuTimestamp(
-		GR_DEVICE device,
+		_In_ GR_DEVICE device,
 		_Out_ GR_GPU_TIMESTAMP_CALIBRATION* pCalibrationData);
+
+	// ------------------------------------------------------
+		// PERF EXPERIMENT EXTENSION FUNCTIONS
+	// ------------------------------------------------------
+#define GR_PERF_PROFILE_EXTENSION_NAME "GR_PERF_PROFILE"
+
+	GR_RESULT grCreatePerfExperiment(
+		_In_ GR_DEVICE device,
+		_In_ const GR_PERF_EXPERIMENT_CREATE_INFO* pCreateInfo,
+		_Out_ GR_PERF_EXPERIMENT* pPerfExperiment);
+
+	GR_RESULT grFinalizePerfExperiment(
+		_In_ GR_PERF_EXPERIMENT perfExperiment);
+
+	GR_RESULT grAddPerfExperimentCounter(
+		_In_ GR_PERF_EXPERIMENT perfExperiment,
+		__int64 a2);
+
+	GR_RESULT grAddPerfExperimentTrace(
+		_In_ GR_PERF_EXPERIMENT perfExperiment,
+		__int64 a2);
+
+	GR_VOID grCmdBeginPerfExperiment(
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		__int64 a2);
+
+	GR_VOID grCmdEndPerfExperiment(
+		_In_ GR_CMD_BUFFER cmdBuffer,
+		__int64 a2);
 
 	// ------------------------------------------------------
 		// PRIVATE DISPLAY EXTENSION FUNCTIONS
@@ -343,50 +372,46 @@ extern "C" {
 		_Inout_ GR_UINT* pDisplayCount,
 		_Out_ GR_PRIVATE_DISPLAY displays[GR_MAX_PRIVATE_DISPLAYS]);
 
-	GR_RESULT grCreatePrivateDisplayImage(
-		_In_ GR_DEVICE device,
-		_In_ const GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO* pCreateInfo,
-		_Out_ GR_IMAGE* pImage,
-		_Out_ GR_GPU_MEMORY* pMem);
-
-	GR_RESULT grRemoveEmulatedPrivateDisplay(
-		GR_DEVICE device,
-		unsigned int a2);
-
 	GR_RESULT grBlankPrivateDisplay(
-		GR_PRIVATE_DISPLAY display);
-
-	GR_RESULT grDisablePrivateDisplay(
 		GR_PRIVATE_DISPLAY display);
 
 	GR_RESULT grEnablePrivateDisplay(
 		GR_PRIVATE_DISPLAY display,
 		const GR_ENABLE_PRIVATE_DISPLAY_INFO* pEnableInfo);
 
+	GR_RESULT grDisablePrivateDisplay(
+		GR_PRIVATE_DISPLAY display);
+
 	GR_RESULT grEnablePrivateDisplayAudio(
 		GR_PRIVATE_DISPLAY display,
 		unsigned int a2);
-
-	GR_RESULT grGetPrivateDisplayScanLine(
-		_In_ GR_PRIVATE_DISPLAY display,
-		_Out_ GR_INT* pScanLine);
 
 	GR_RESULT grAddEmulatedPrivateDisplay(
 		GR_DEVICE device,
 		const GR_ADD_EMULATE_PRIVATE_DISPALY_INFO* pEmulateInfo,
 		GR_UINT* pTargetId);
 
-	GR_RESULT grOpenExternalSharedPrivateDisplayImage(
+	GR_RESULT grRemoveEmulatedPrivateDisplay(
 		GR_DEVICE device,
-		const GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_INFO* pOpenInfo);
+		GR_UINT TargetId);
 
 	GR_RESULT grPrivateDisplayPresent(
 		GR_DEVICE device,
 		const GR_EXT_PRIVATE_DISPLAY_PRESENT_INFO* pPresentInfo);
 
-	GR_RESULT grRegisterPrivateDisplayEvent(
+	GR_RESULT grCreatePrivateDisplayImage(
+		_In_ GR_DEVICE device,
+		_In_ const GR_PRIVATE_DISPLAY_IMAGE_CREATE_INFO* pCreateInfo,
+		_Out_ GR_IMAGE* pImage,
+		_Out_ GR_GPU_MEMORY* pMem);
+
+	GR_RESULT grOpenExternalSharedPrivateDisplayImage(
 		GR_DEVICE device,
-		__int64 a2);
+		const GR_OPEN_EXTERNAL_SHARED_PRIVATE_DISPLAY_IMAGE_INFO* pOpenInfo);
+
+	GR_RESULT grGetPrivateDisplayScanLine(
+		_In_ GR_PRIVATE_DISPLAY display,
+		_Out_ GR_INT* pScanLine);
 
 	GR_RESULT grSetPrivateDisplayPowerMode(
 		GR_PRIVATE_DISPLAY display,
@@ -398,82 +423,28 @@ extern "C" {
 		__int64 a3,
 		__int64 a4);
 
+	GR_RESULT grRegisterPrivateDisplayEvent(
+		GR_DEVICE device,
+		__int64 a2);
+
 	// ------------------------------------------------------
 		// VIRTUAL DISPLAY EXTENSION FUNCTIONS
 	// ------------------------------------------------------
 #define GR_VIRTUAL_DISPLAY_EXTENSION_NAME "GR_VIRTUAL_DISPLAY"
 
 	GR_RESULT grCreateVirtualDisplay(
-		GR_DEVICE device,
-		const GR_VIRTUAL_DISPLAY_CREATE_INFO* pCreateInfo,
-		GR_VIRTUAL_DISPLAY* display);
+		_In_ GR_DEVICE device,
+		_In_ const GR_VIRTUAL_DISPLAY_CREATE_INFO* pCreateInfo,
+		_Out_ GR_VIRTUAL_DISPLAY* display);
 
 	GR_RESULT grDestroyVirtualDisplay(
-		GR_DEVICE device,
-		GR_VIRTUAL_DISPLAY display);
+		_In_ GR_DEVICE device,
+		_In_ GR_VIRTUAL_DISPLAY display);
 
 	GR_RESULT grGetVirtualDisplayProperties(
-		GR_DEVICE device,
-		GR_EXT_INFO_TYPE infoType,
-		GR_VOID* pData);
-
-	// ------------------------------------------------------
-		// PERF EXPERIMENT EXTENSION FUNCTIONS
-	// ------------------------------------------------------
-#define GR_PERF_PROFILE_EXTENSION_NAME "GR_PERF_PROFILE"
-
-	GR_RESULT grCreatePerfExperiment(
-		GR_DEVICE device,
-		const GR_PERF_EXPERIMENT_CREATE_INFO* pCreateInfo,
-		GR_PERF_EXPERIMENT* pPerfExperiment);
-
-	GR_RESULT grAddPerfExperimentCounter(
-		GR_PERF_EXPERIMENT perfExperiment,
-		__int64 a2);
-	
-	GR_RESULT grAddPerfExperimentTrace(
-		GR_PERF_EXPERIMENT perfExperiment,
-		__int64 a2);
-
-	GR_VOID grCmdBeginPerfExperiment(
-		GR_CMD_BUFFER cmdBuffer,
-		__int64 a2);
-
-	GR_VOID grCmdEndPerfExperiment(
-		GR_CMD_BUFFER cmdBuffer,
-		__int64 a2);
-
-	GR_RESULT grFinalizePerfExperiment(
-		GR_PERF_EXPERIMENT perfExperiment);
-	
-	// ------------------------------------------------------
-		// 
-	// ------------------------------------------------------
-	/*Private display doesn't have V-sync enabled when grQueueDelayAfterVsync is called.
-	This behavior could be still valid if a following grPrivateDisplayPresent with GR_EXT_PRIVATE_DISPLAY_PRESENT_VSYNC enables V-sync,
-	however it is time sensitive and the result might be undefined.*/
-	GR_RESULT grQueueDelayAfterVsync(
-		GR_QUEUE queue,
-		__int64 a2,
-		unsigned int a3);
-
-	GR_RESULT grSetEventAfterVsync(
-		__int64 display,
-		__int64 a2,
-		unsigned int a3,
-		unsigned int a4);
-
-#define GR_OBJECT_MIGRATION_EXTENSION_NAME "GR_OBJECT_MIGRATION"
-	GR_RESULT grQueueMigrateObjects(
-		GR_QUEUE queue,
-		unsigned int a2,
-		__int64 a3,
-		__int64 a4);
-
-#define GR_QUEUE_PRIORITY_EXTENSION_NAME "GR_QUEUE_PRIORITY"
-	GR_RESULT grQueueSetExecutionPriority(
-		GR_QUEUE queue,
-		unsigned int a2);
+		_In_ GR_DEVICE device,
+		_In_ GR_EXT_INFO_TYPE infoType,
+		_Out_ GR_VOID* pData);
 
 	// ------------------------------------------------------
 		// POWER PROFILE EXTENSION FUNCTIONS
@@ -497,6 +468,45 @@ extern "C" {
 		GR_DEVICE device,
 		__int64 a2,
 		__int64 a3);
+
+	// ------------------------------------------------------
+		// PRIVATE DISPLAY PRESENT VSYNC EXTENSION FUNCTIONS
+	// ------------------------------------------------------
+	/*
+	* Private display doesn't have V-sync enabled when grQueueDelayAfterVsync is called.
+	* This behavior could be still valid if a following grPrivateDisplayPresent with GR_EXT_PRIVATE_DISPLAY_PRESENT_VSYNC enables V-sync,
+	* however it is time sensitive and the result might be undefined.
+	*/
+	GR_RESULT grQueueDelayAfterVsync(
+		GR_QUEUE queue,
+		__int64 a2,
+		unsigned int a3);
+
+	GR_RESULT grSetEventAfterVsync(
+		GR_PRIVATE_DISPLAY display,
+		__int64 a2,
+		unsigned int a3,
+		unsigned int a4);
+
+	// ------------------------------------------------------
+		// GR OBJECT MIGRATION EXTENSION FUNCTIONS
+	// ------------------------------------------------------
+#define GR_OBJECT_MIGRATION_EXTENSION_NAME "GR_OBJECT_MIGRATION"
+
+	GR_RESULT grQueueMigrateObjects(
+		GR_QUEUE queue,
+		unsigned int a2,
+		__int64 a3,
+		__int64 a4);
+
+	// ------------------------------------------------------
+		// GR QUEUE PRIORITY EXTENSION FUNCTIONS
+	// ------------------------------------------------------
+#define GR_QUEUE_PRIORITY_EXTENSION_NAME "GR_QUEUE_PRIORITY"
+
+	GR_RESULT grQueueSetExecutionPriority(
+		GR_QUEUE queue,
+		unsigned int a2);
 
 	// ------------------------------------------------------
 		// WIN EXTERNAL SHARED RESOURCE EXTENSION FUNCTIONS
@@ -529,6 +539,17 @@ extern "C" {
 	// ------------------------------------------------------
 		// COMMAND BUFFER BUILDING EXTENSION FUNCTIONS
 	// ------------------------------------------------------
+#define GR_DISPATCH_OFFSET_EXTENSION_NAME "GR_DISPATCH_OFFSET"
+
+	GR_VOID grCmdDispatchOffset(
+		GR_CMD_BUFFER cmdBuffer,
+		unsigned int a2,
+		unsigned int a3,
+		unsigned int a4,
+		int a5,
+		int a6,
+		int a7);
+
 	GR_VOID grCmdBindUserData(
 		GR_CMD_BUFFER cmdBuffer,
 		unsigned int a2,
@@ -541,16 +562,6 @@ extern "C" {
 		unsigned int a2,
 		__int64 a3,
 		__int64 a4);
-
-#define GR_DISPATCH_OFFSET_EXTENSION_NAME "GR_DISPATCH_OFFSET"
-	GR_VOID grCmdDispatchOffset(
-		GR_CMD_BUFFER cmdBuffer,
-		unsigned int a2,
-		unsigned int a3,
-		unsigned int a4,
-		int a5,
-		int a6,
-		int a7);
 
 	GR_VOID grCmdDispatchOffsetIndirect(
 		GR_CMD_BUFFER cmdBuffer,
