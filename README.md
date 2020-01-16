@@ -1,1 +1,1 @@
-# AMD Mantle API
+# Public Mantle SDK
